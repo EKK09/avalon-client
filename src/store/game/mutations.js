@@ -29,10 +29,10 @@ export function addPlayer(state, playerName) {
 }
 export function updatePlayerRole(state, { name, role }) {
   const players = state.playerList;
-  for (let index = 0; index < players.length; index = +1) {
+  for (let index = 0; index < players.length; index += 1) {
     const player = players[index];
     if (player.name === name) {
-      state.playerList.splice(index, {
+      state.playerList.splice(index, 1, {
         name,
         role,
       });
@@ -42,36 +42,34 @@ export function updatePlayerRole(state, { name, role }) {
 }
 export function revealEvilRole(state, evils) {
   const players = state.playerList;
-  for (let index = 0; index < players.length; index = +1) {
+  for (let index = 0; index < players.length; index += 1) {
     const player = players[index];
-    if (evils.includes(player.name)) {
-      state.playerList.splice(index, {
+    if (evils.includes(player.name) && player.role === GAME_ROLE.UNKNOWN) {
+      state.playerList.splice(index, 1, {
         ...player,
         role: GAME_ROLE.EVIL,
       });
-      return;
     }
   }
 }
 export function revealMerlin(state, merlins) {
   const players = state.playerList;
-  for (let index = 0; index < players.length; index = +1) {
+  for (let index = 0; index < players.length; index += 1) {
     const player = players[index];
     if (merlins.includes(player.name)) {
-      state.playerList.splice(index, {
+      state.playerList.splice(index, 1, {
         ...player,
         role: GAME_ROLE.MERLIN,
       });
-      return;
     }
   }
 }
 export function updateUserRole(state, role) {
   const players = state.playerList;
-  for (let index = 0; index < players.length; index = +1) {
+  for (let index = 0; index < players.length; index += 1) {
     const player = players[index];
     if (player.name === state.user) {
-      state.playerList.splice(index, {
+      state.playerList.splice(index, 1, {
         name: state.user,
         role,
       });

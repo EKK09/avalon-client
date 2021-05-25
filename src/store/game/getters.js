@@ -1,3 +1,5 @@
+import { getRoleImageByRole } from 'src/constants/role.js';
+
 export function isLeader(state) {
   return (playerName) => state.leader === playerName;
 }
@@ -10,4 +12,7 @@ export function isValidGamePlayerCount(state) {
 }
 export function isSelectedTaskTeamPlayer(state) {
   return (playerName) => state.selectedTaskTeamList.includes(playerName);
+}
+export function userRoleImage(state) {
+  return getRoleImageByRole(state.role);
 }

@@ -6,7 +6,7 @@
   >
     <q-toolbar class="q-pa-sm">
       <q-img
-        src="merlin.jpg"
+        :src="userRoleImage"
         width="100px"
         height="140px"
       />
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'GameHeader',
   data() {
@@ -54,6 +56,9 @@ export default {
         undefined,
       ],
     };
+  },
+  computed: {
+    ...mapGetters('game', ['userRoleImage']),
   },
 };
 </script>

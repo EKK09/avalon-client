@@ -72,3 +72,6 @@ export function removeSelectedTaskTeamPlayer(state, playerName) {
     }
   }
 }
+export function setWebSocket(state, socket) {
+  state.webSocket = socket;
+}

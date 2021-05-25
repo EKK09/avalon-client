@@ -61,5 +61,6 @@ export default function state() {
     selectedTaskTeamList: [],
     teamSize: 4,
     round: 3,
+    webSocket: null,
   };
 }

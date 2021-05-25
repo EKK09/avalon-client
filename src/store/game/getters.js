@@ -16,3 +16,10 @@ export function isSelectedTaskTeamPlayer(state) {
 export function userRoleImage(state) {
   return getRoleImageByRole(state.role);
 }
+
+export function hasBasicGameInfo(state) {
+  if (state.roomId !== '' && state.user !== '') {
+    return true;
+  }
+  return false;
+}

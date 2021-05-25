@@ -23,3 +23,14 @@ export function hasBasicGameInfo(state) {
   }
   return false;
 }
+export function isHost(state) {
+  const hostPlayer = state.playerList[0];
+  if (hostPlayer === undefined) {
+    return false;
+  }
+
+  return hostPlayer.name === state.user;
+}
+export function isStarted(state) {
+  return state.round > 0;
+}

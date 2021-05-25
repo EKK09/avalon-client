@@ -40,13 +40,56 @@ export function updatePlayerRole(state, { name, role }) {
     }
   }
 }
+export function revealEvilRole(state, evils) {
+  const players = state.playerList;
+  for (let index = 0; index < players.length; index = +1) {
+    const player = players[index];
+    if (evils.includes(player.name)) {
+      state.playerList.splice(index, {
+        ...player,
+        role: GAME_ROLE.EVIL,
+      });
+      return;
+    }
+  }
+}
+export function revealMerlin(state, merlins) {
+  const players = state.playerList;
+  for (let index = 0; index < players.length; index = +1) {
+    const player = players[index];
+    if (merlins.includes(player.name)) {
+      state.playerList.splice(index, {
+        ...player,
+        role: GAME_ROLE.MERLIN,
+      });
+      return;
+    }
+  }
+}
+export function updateUserRole(state, role) {
+  const players = state.playerList;
+  for (let index = 0; index < players.length; index = +1) {
+    const player = players[index];
+    if (player.name === state.user) {
+      state.playerList.splice(index, {
+        name: state.user,
+        role,
+      });
+      return;
+    }
+  }
+}
 export function setTaskTeamList(state, value) {
   state.taskTeamList = value;
 }
-export function updateTaskResultList(state, { index, result }) {
-  const results = [...state.taskResultList];
-  results[index] = result;
-  state.taskResultList = results;
+export function updateTaskResultList(state, results) {
+  const taskResults = [...state.taskResultList];
+
+  results.forEach((result, index) => {
+    taskResults[index] = result;
+  });
+
+  state.taskResultList = taskResults;
 }
 export function setTeamSize(state, teamSize) {
   state.teamSize = teamSize;

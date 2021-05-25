@@ -5,12 +5,19 @@
     class="bg-blue-grey-9"
   >
     <q-toolbar class="q-pa-sm">
-      <q-img
-        :src="userRoleImage"
-        width="100px"
-        height="140px"
-      />
-      <q-toolbar-title class="row items-center justify-center q-pa-sm">
+      <div
+        style="width: 100px"
+      >
+        <div class="text-bold fz-md ellipsis full-width">
+          房號: {{ roomId }}
+        </div>
+        <q-img
+          :src="userRoleImage"
+          width="100px"
+          height="140px"
+        />
+      </div>
+      <q-toolbar-title class="flex flex-center q-pa-sm">
         <div
           v-for="(result, index) in taskResultList"
           :key="index"
@@ -42,23 +49,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'GameHeader',
-  data() {
-    return {
-      taskResultList: [
-        true,
-        true,
-        false,
-        true,
-        undefined,
-      ],
-    };
-  },
   computed: {
     ...mapGetters('game', ['userRoleImage']),
+    ...mapState('game', ['roomId', 'taskResultList']),
   },
 };
 </script>

@@ -28,6 +28,7 @@
             <q-btn
               label="加入遊戲"
               color="primary"
+              @click="handleJoinGameClick"
             />
           </template>
         </q-input>
@@ -35,6 +36,7 @@
         <q-btn
           label="開新遊戲"
           color="primary"
+          @click="createGame"
         />
       </q-card-section>
     </q-card>
@@ -42,6 +44,10 @@
 </template>
 
 <script>
+import {
+  mapActions, mapGetters, mapMutations,
+} from 'vuex';
+
 export default {
   name: 'EntrancePage',
 
@@ -50,6 +56,65 @@ export default {
       player: '',
       roomId: '',
     };
+  },
+  computed: {
+    ...mapGetters('game', ['hasBasicGameInfo']),
+  },
+  methods: {
+    ...mapActions('game', [
+      'createGameAction',
+      'joinGameAction',
+    ]),
+    ...mapMutations('game', [
+      'setRoomId',
+      'setUser',
+    ]),
+    async createGame() {
+      if (this.player === '') {
+        this.$q.notify({
+          message: '請輸入遊戲暱稱',
+        });
+        return;
+      }
+      await this.createGameAction(this.player);
+
+      if (this.hasBasicGameInfo === false) {
+        this.$q.notify({
+          message: '建立遊戲失敗',
+        });
+        return;
+      }
+      await this.joinGame();
+    },
+    async handleJoinGameClick() {
+      if (this.player === '') {
+        this.$q.notify({
+          message: '請輸入遊戲暱稱',
+        });
+        return;
+      }
+      if (this.roomId === '') {
+        this.$q.notify({
+          message: '請輸入房號',
+        });
+        return;
+      }
+
+      this.setRoomId(this.roomId);
+      this.setUser(this.player);
+      await this.joinGame();
+    },
+    async joinGame() {
+      const handleSuccess = () => {
+        this.$router.push('/game');
+      };
+      const handleError = () => {
+        this.$q.notify({
+          message: '進入遊戲失敗',
+        });
+      };
+      await this.joinGameAction({ handleSuccess, handleError });
+    },
   },
 };
 </script>

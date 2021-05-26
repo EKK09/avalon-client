@@ -99,6 +99,9 @@ export function setRound(state, round) {
   state.round = round;
 }
 
+export function setSelectedTaskTeamList(state, players) {
+  state.selectedTaskTeamList = players;
+}
 export function resetSelectedTaskTeamPlayer(state) {
   state.selectedTaskTeamList = [];
 }

@@ -1,6 +1,7 @@
 import { createGameApi } from 'src/api/gameApi';
 import { GAME_ACTION_TYPE } from 'src/constants/action';
 import { GAME_ROLE } from 'src/constants/role';
+import { GAME_STATUS } from 'src/constants/status';
 
 export async function createGameAction({ commit }, player) {
   try {
@@ -66,11 +67,28 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
         commit('addMessage', `${payload.join(',')} 與您是同夥`);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
         commit('setLeader', payload);
+        if (payload === state.user) {
+          commit('addMessage', `請選擇 ${state.teamSize} 位出任務玩家`);
+          commit('setStatus', GAME_STATUS.SELECT_TASK_PLAYER);
+        } else {
+          commit('addMessage', `等待 ${payload} 指派玩家`);
+        }
+        commit('addMessage', `${payload.join(',')} 與您是同夥`);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_TEAM_SIZE) {
+        commit('setTeamSize', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {
         // TODO: 再說
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
         commit('updateTaskResultList', payload);
         commit('addMessage', `任務${payload[payload.length - 1] ? '成功' : '失敗'}`);
+      } else if (type === GAME_ACTION_TYPE.ASSIGN_TASK) {
+        commit('setSelectedTaskTeamList', payload);
+        if (payload.includes(state.user)) {
+          commit('addMessage', '請出任務');
+          commit('setStatus', GAME_STATUS.VOTE);
+        } else {
+          commit('addMessage', `${payload.join(',')} 出任務中`);
+        }
       }
     });
     socket.addEventListener('error', (event) => {

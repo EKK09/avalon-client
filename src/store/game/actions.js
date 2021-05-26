@@ -54,9 +54,6 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
       } else if (type === GAME_ACTION_TYPE.DECLARE_ROLE) {
         commit('setRole', payload);
         commit('updateUserRole', payload);
-      } else if (type === GAME_ACTION_TYPE.DECLARE_ROLE) {
-        commit('setRole', payload);
-        commit('updateUserRole', payload);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL) {
         commit('revealEvilRole', payload);
       } else if (type === GAME_ACTION_TYPE.REVEAL_MERLIN) {

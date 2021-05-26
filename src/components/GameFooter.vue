@@ -4,40 +4,27 @@
     bordered
     class="bg-white text-black q-pa-md"
   >
-    <q-toolbar>
-      <q-toolbar-title>
-        <div
-          class="text-black"
-          style="height: 80px"
-        >
-          請選擇出任務玩家
-        </div>
-      </q-toolbar-title>
-      <q-btn
-        padding="0"
-        round
+    <q-item class="q-pa-none">
+      <q-item-section>
+        <GameMessageList />
+      </q-item-section>
+
+      <q-item-section
+        side
+        top
       >
-        <q-avatar size="65px">
-          <img src="task.jpg">
-        </q-avatar>
-      </q-btn>
-    </q-toolbar>
+        <GameOperateButton />
+      </q-item-section>
+    </q-item>
   </q-footer>
 </template>
 
 <script>
+import GameMessageList from 'src/components/GameMessageList.vue';
+import GameOperateButton from 'src/components/GameOperateButton.vue';
+
 export default {
   name: 'GameFooter',
-  data() {
-    return {
-      taskResultList: [
-        true,
-        true,
-        false,
-        true,
-        undefined,
-      ],
-    };
-  },
+  components: { GameMessageList, GameOperateButton },
 };
 </script>

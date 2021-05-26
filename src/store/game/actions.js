@@ -54,18 +54,23 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
       } else if (type === GAME_ACTION_TYPE.DECLARE_ROLE) {
         commit('setRole', payload);
         commit('updateUserRole', payload);
+        commit('addMessage', `你的角色為 ${payload}`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL) {
         commit('revealEvilRole', payload);
+        commit('addMessage', `${payload.join(',')} 為邪惡方`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_MERLIN) {
         commit('revealMerlin', payload);
+        commit('addMessage', `${payload.join(',')} 的身份為梅林？`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL_EACH) {
         commit('revealEvilRole', payload);
+        commit('addMessage', `${payload.join(',')} 與您是同夥`);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
         commit('setLeader', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {
         // TODO: 再說
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
         commit('updateTaskResultList', payload);
+        commit('addMessage', `任務${payload[payload.length - 1] ? '成功' : '失敗'}`);
       }
     });
     socket.addEventListener('error', (event) => {

@@ -12,8 +12,11 @@ export function setRole(state, value) {
 export function setLeader(state, value) {
   state.leader = value;
 }
-export function setMessage(state, value) {
-  state.message = value;
+export function addMessage(state, message) {
+  state.messageList.push(message);
+}
+export function shiftMessage(state) {
+  state.messageList.shift();
 }
 export function setStatus(state, value) {
   state.status = value;

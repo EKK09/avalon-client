@@ -56,7 +56,7 @@ export default function state() {
     playerList: [],
     taskTeamList: [],
     taskResultList: [undefined, undefined, undefined, undefined, undefined],
-    message: '',
+    messageList: ['等待玩家就位，遊戲人數 5 ~ 10'],
     status: '',
     selectedTaskTeamList: [],
     teamSize: 0,

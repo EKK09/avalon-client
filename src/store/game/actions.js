@@ -114,8 +114,7 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         const isApprove = unApprovePlayers.length < (state.playerList.length / 2);
         const resultText = isApprove ? '投票通過' : '投票不通過';
         const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(',')} 表示反對` : '無人反對';
-        let taskText = isApprove && getters.isTaskTeam ? '請進行任務投票' : '';
-        taskText = isApprove && taskText === '' ? '等候任務投票' : '';
+        const taskText = isApprove ? '任務玩家請投票' : '';
         const message = `${resultText},${unApproveText} ${taskText}`;
         const status = isApprove && getters.isTaskTeam ? GAME_STATUS.VOTE : GAME_STATUS.WAIT;
         commit('addMessage', message);

@@ -17,7 +17,7 @@ export async function createGameAction({ commit }, player) {
     console.log(error);
   }
 }
-export async function joinGameAction({ commit, state }, { handleSuccess, handleError }) {
+export async function joinGameAction({ commit, state, getters }, { handleSuccess, handleError }) {
   try {
     const serverUrl = `${process.env.AVALON_WEBSOCKET_SERVER_URL}/${state.roomId}/${state.user}`;
     const socket = new WebSocket(serverUrl);
@@ -55,6 +55,7 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
       } else if (type === GAME_ACTION_TYPE.DECLARE_ROLE) {
         commit('setRole', payload);
         commit('updateUserRole', payload);
+        commit('resetMessage');
         commit('addMessage', `你的角色為 ${payload}`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL) {
         commit('revealEvilRole', payload);
@@ -75,6 +76,11 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
         }
       } else if (type === GAME_ACTION_TYPE.DECLARE_TEAM_SIZE) {
         commit('setTeamSize', payload);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_TEAM) {
+        commit('setTaskTeamList', payload);
+        commit('resetMessage');
+        commit('addMessage', `本回出任務玩家${payload.join(',')}`);
+        commit('setStatus', GAME_STATUS.APPROVE);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {
         // TODO: 再說
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
@@ -88,6 +94,23 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
         } else {
           commit('addMessage', `${payload.join(',')} 出任務中`);
         }
+      } else if (type === GAME_ACTION_TYPE.DECLARE_GOD_STATEMENT) {
+        commit('updateTaskResultList', payload);
+        commit('addMessage', `${payload.god} 表示 ${payload.player} 是 ${payload.isGood ? '亞瑟的忠臣' : '莫德雷德的爪牙'}`);
+      } else if (type === GAME_ACTION_TYPE.ASSIGN_GOD) {
+        commit('setStatus', GAME_STATUS.SELECT_REVEAL_PLAYER);
+        commit('addMessage', '請選澤你想檢視的玩家');
+      } else if (type === GAME_ACTION_TYPE.DECLARE_REVEALED_PLAYER_LIST) {
+        commit('setRevealedPlayerList', payload);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_APPROVAL_LIST) {
+        const unApprovePlayers = payload.filter((item) => !item.result).map((item) => item.player);
+        const isApprove = unApprovePlayers.length < (state.playerList.length / 2);
+        const resultText = isApprove ? '投票通過' : '投票不通過';
+        const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(',')} 表示反對` : '無人反對';
+        const message = `${resultText} ${unApproveText}`;
+        const status = isApprove && getters.isTaskTeam ? GAME_STATUS.VOTE : GAME_STATUS.WAIT;
+        commit('addMessage', message);
+        commit('setStatus', status);
       }
     });
     socket.addEventListener('error', (event) => {
@@ -162,8 +185,13 @@ export async function assignRevealPlayerAction({ state }) {
     console.log(error);
   }
 }
-export async function assignGodStatementAction({ state }, statement) {
+export async function assignGodStatementAction({ state }, isGood) {
   try {
+    const statement = {
+      god: state.user,
+      isGood,
+      player: state.revealPlayer,
+    };
     const action = {
       type: GAME_ACTION_TYPE.ASSIGN_GOD_STATEMENT,
       payload: statement,

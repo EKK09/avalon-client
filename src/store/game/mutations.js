@@ -12,6 +12,9 @@ export function setRole(state, value) {
 export function setLeader(state, value) {
   state.leader = value;
 }
+export function resetMessage(state) {
+  state.messageList = [];
+}
 export function addMessage(state, message) {
   state.messageList.push(message);
 }
@@ -121,4 +124,10 @@ export function removeSelectedTaskTeamPlayer(state, playerName) {
 }
 export function setWebSocket(state, socket) {
   state.webSocket = socket;
+}
+export function setRevealPlayer(state, player) {
+  state.revealPlayer = player;
+}
+export function setRevealedPlayerList(state, players) {
+  state.revealedPlayerList = players;
 }

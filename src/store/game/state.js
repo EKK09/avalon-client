@@ -22,5 +22,6 @@ export default function state() {
     round: 0,
     webSocket: null,
     revealPlayer: '',
+    revealedPlayerList: [],
   };
 }

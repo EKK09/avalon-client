@@ -86,6 +86,9 @@ export function updateUserRole(state, role) {
 export function setTaskTeamList(state, value) {
   state.taskTeamList = value;
 }
+export function resetTaskTeamList(state) {
+  state.taskTeamList = [];
+}
 export function updateTaskResultList(state, results) {
   const taskResults = [...state.taskResultList];
 
@@ -105,7 +108,7 @@ export function setRound(state, round) {
 export function setSelectedTaskTeamList(state, players) {
   state.selectedTaskTeamList = players;
 }
-export function resetSelectedTaskTeamPlayer(state) {
+export function resetSelectedTaskTeamList(state) {
   state.selectedTaskTeamList = [];
 }
 export function addSelectedTaskTeamPlayer(state, playerName) {

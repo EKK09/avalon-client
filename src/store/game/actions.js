@@ -67,6 +67,8 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('revealEvilRole', payload);
         commit('addMessage', `${payload.join(',')} 與您是同夥`);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
+        commit('resetSelectedTaskTeamList');
+        commit('resetTaskTeamList');
         commit('setLeader', payload);
         if (payload === state.user) {
           commit('addMessage', `請選擇 ${state.teamSize} 位出任務玩家`);
@@ -137,7 +139,7 @@ export async function startGameAction({ state }) {
     console.log(error);
   }
 }
-export async function assignTaskTeamAction({ state }) {
+export async function assignTaskTeamAction({ state, commit }) {
   try {
     const action = {
       type: GAME_ACTION_TYPE.ASSIGN_TEAM,
@@ -145,6 +147,7 @@ export async function assignTaskTeamAction({ state }) {
     };
     const socket = state.webSocket;
     socket.send(JSON.stringify(action));
+    commit('resetSelectedTaskTeamList');
   } catch (error) {
     console.log(error);
   }

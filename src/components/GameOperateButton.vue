@@ -36,12 +36,8 @@
       color="positive"
       glossy
       label="成功"
-
+      class="q-mr-md"
       @click="handleVote(true)"
-    />
-    <q-separator
-      vertical
-      class="q-mx-sm"
     />
     <q-btn
       rounded
@@ -59,12 +55,9 @@
       rounded
       color="positive"
       glossy
+      class="q-mr-md"
       label="贊成"
       @click="handleApprove(true)"
-    />
-    <q-separator
-      vertical
-      class="q-mx-sm"
     />
     <q-btn
       rounded
@@ -82,12 +75,9 @@
       rounded
       color="positive"
       glossy
+      class="q-mr-md"
       label="他是忠臣"
       @click="assignGodState(true)"
-    />
-    <q-separator
-      vertical
-      class="q-mx-sm"
     />
     <q-btn
       rounded

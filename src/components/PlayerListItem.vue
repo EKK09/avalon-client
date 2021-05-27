@@ -36,12 +36,23 @@
         <img src="task.jpg">
       </q-avatar>
     </q-badge>
+    <q-badge
+      v-show="isShowGodSign"
+      class="q-pa-none bg-transparent absolute-left"
+      floating
+      rounded
+    >
+      <q-avatar size="40px">
+        <img src="god.jpg">
+      </q-avatar>
+    </q-badge>
   </div>
 </template>
 
 <script>
 import { getRoleImageByRole } from 'src/constants/role';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
+import { GAME_STATUS } from 'src/constants/status';
 
 export default {
   name: 'PlayerListItem',
@@ -57,6 +68,15 @@ export default {
       'isSelectedTaskTeamPlayer',
       'isTaskTeamPlayer',
     ]),
+    ...mapState('game', [
+      'status',
+      'revealPlayer',
+      'revealedPlayerList',
+    ]),
+
+    playerName() {
+      return this.player.name;
+    },
 
     isShowLeaderSign() {
       return this.isLeader(this.player.name);
@@ -65,8 +85,14 @@ export default {
       const player = this.player.name;
       return this.isSelectedTaskTeamPlayer(player) || this.isTaskTeamPlayer(player);
     },
+    isShowGodSign() {
+      return this.playerName === this.revealPlayer;
+    },
     roleImageUrl() {
       return getRoleImageByRole(this.player.role);
+    },
+    hasReveal() {
+      return this.revealedPlayerList.includes(this.playerName);
     },
   },
 
@@ -74,15 +100,35 @@ export default {
     ...mapMutations('game', [
       'addSelectedTaskTeamPlayer',
       'removeSelectedTaskTeamPlayer',
+      'setRevealPlayer',
     ]),
 
     handlePlayerClick() {
-      const playerName = this.player.name;
-      if (this.isSelectedTaskTeamPlayer(playerName)) {
-        this.removeSelectedTaskTeamPlayer(playerName);
-      } else {
-        this.addSelectedTaskTeamPlayer(playerName);
+      if (this.status === GAME_STATUS.SELECT_TASK_PLAYER) {
+        this.handleSelectTaskTeam();
+        return;
       }
+      if (this.status === GAME_STATUS.SELECT_REVEAL_PLAYER) {
+        this.handleSelectRevealPlayer();
+      }
+    },
+
+    handleSelectTaskTeam() {
+      if (this.isSelectedTaskTeamPlayer(this.playerName)) {
+        this.removeSelectedTaskTeamPlayer(this.playerName);
+      } else {
+        this.addSelectedTaskTeamPlayer(this.playerName);
+      }
+    },
+    handleSelectRevealPlayer() {
+      if (this.hasReveal) {
+        this.$q.notify({
+          message: '無法選擇檢視過的玩家',
+        });
+        return;
+      }
+
+      this.setRevealPlayer(this.playerName);
     },
   },
 };

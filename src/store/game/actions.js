@@ -98,11 +98,14 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
           commit('addMessage', `${payload.join(',')} 出任務中`);
         }
       } else if (type === GAME_ACTION_TYPE.DECLARE_GOD_STATEMENT) {
-        commit('updateTaskResultList', payload);
+        commit('setStatus', GAME_STATUS.WAIT);
         commit('addMessage', `${payload.god} 表示 ${payload.player} 是 ${payload.isGood ? '亞瑟的忠臣' : '莫德雷德的爪牙'}`);
       } else if (type === GAME_ACTION_TYPE.ASSIGN_GOD) {
-        commit('setStatus', GAME_STATUS.SELECT_REVEAL_PLAYER);
-        commit('addMessage', '請選澤你想檢視的玩家');
+        const isGod = state.user === payload;
+        const status = isGod ? GAME_STATUS.SELECT_REVEAL_PLAYER : GAME_STATUS.WAIT;
+        const message = isGod ? '湖中女神出現，請選擇你想檢視的玩家' : '湖中女神出現，等待湖中女神的指示';
+        commit('setStatus', status);
+        commit('addMessage', message);
       } else if (type === GAME_ACTION_TYPE.DECLARE_REVEALED_PLAYER_LIST) {
         commit('setRevealedPlayerList', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_APPROVAL_LIST) {
@@ -111,11 +114,20 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         const isApprove = unApprovePlayers.length < (state.playerList.length / 2);
         const resultText = isApprove ? '投票通過' : '投票不通過';
         const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(',')} 表示反對` : '無人反對';
-        const taskText = isApprove && getters.isTaskTeam ? '請進行任務投票' : '';
+        let taskText = isApprove && getters.isTaskTeam ? '請進行任務投票' : '';
+        taskText = isApprove && taskText === '' ? '等候任務投票' : '';
         const message = `${resultText},${unApproveText} ${taskText}`;
         const status = isApprove && getters.isTaskTeam ? GAME_STATUS.VOTE : GAME_STATUS.WAIT;
         commit('addMessage', message);
         commit('setStatus', status);
+      } else if (type === GAME_ACTION_TYPE.REVEAL_PLAYER) {
+        commit('resetMessage');
+        const playerName = payload.player;
+        const role = payload.isGood ? GAME_ROLE.GOOD : GAME_ROLE.EVIL;
+        const message = `${playerName} 角色是 ${payload.isGood ? '忠臣' : '爪牙'} ，你想告訴大家？`;
+        commit('updatePlayerRole', { name: playerName, role });
+        commit('addMessage', message);
+        commit('setStatus', GAME_STATUS.ASSIGN_GOD_STATEMENT);
       }
     });
     socket.addEventListener('error', (event) => {
@@ -201,6 +213,7 @@ export async function assignRevealPlayerAction({ state, commit }) {
 export async function assignGodStatementAction({ state, commit }, isGood) {
   try {
     commit('setStatus', GAME_STATUS.WAIT);
+    commit('setRevealPlayer', '');
     const statement = {
       god: state.user,
       isGood,

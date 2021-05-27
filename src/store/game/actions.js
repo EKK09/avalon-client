@@ -128,8 +128,10 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
   }
 }
 
-export async function startGameAction({ state }) {
+export async function startGameAction({ state, commit }) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
+
     const action = {
       type: GAME_ACTION_TYPE.START,
     };
@@ -141,6 +143,8 @@ export async function startGameAction({ state }) {
 }
 export async function assignTaskTeamAction({ state, commit }) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
+
     const action = {
       type: GAME_ACTION_TYPE.ASSIGN_TEAM,
       payload: state.selectedTaskTeamList,
@@ -152,8 +156,9 @@ export async function assignTaskTeamAction({ state, commit }) {
     console.log(error);
   }
 }
-export async function voteTaskAction({ state }, isSuccess) {
+export async function voteTaskAction({ state, commit }, isSuccess) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
     const action = {
       type: GAME_ACTION_TYPE.VOTE,
       payload: isSuccess,
@@ -164,8 +169,9 @@ export async function voteTaskAction({ state }, isSuccess) {
     console.log(error);
   }
 }
-export async function approveAction({ state }, isApprove) {
+export async function approveAction({ state, commit }, isApprove) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
     const action = {
       type: GAME_ACTION_TYPE.APPROVE,
       payload: isApprove,
@@ -176,8 +182,9 @@ export async function approveAction({ state }, isApprove) {
     console.log(error);
   }
 }
-export async function assignRevealPlayerAction({ state }) {
+export async function assignRevealPlayerAction({ state, commit }) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
     const action = {
       type: GAME_ACTION_TYPE.ASSIGN_REVEAL_PLAYER,
       payload: state.revealPlayer,
@@ -188,8 +195,9 @@ export async function assignRevealPlayerAction({ state }) {
     console.log(error);
   }
 }
-export async function assignGodStatementAction({ state }, isGood) {
+export async function assignGodStatementAction({ state, commit }, isGood) {
   try {
+    commit('setStatus', GAME_STATUS.WAIT);
     const statement = {
       god: state.user,
       isGood,

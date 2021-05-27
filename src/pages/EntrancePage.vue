@@ -14,7 +14,7 @@
           rounded
           no-error-icon
           clearable
-          :rules="[ val => val.length <= 15 || '長度限制 15']"
+          :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 15 || '長度限制 15']"
           input-class="fz-md text-center"
         />
       </q-card-section>

@@ -55,13 +55,15 @@ export default {
     ...mapGetters('game', [
       'isLeader',
       'isSelectedTaskTeamPlayer',
+      'isTaskTeamPlayer',
     ]),
 
     isShowLeaderSign() {
       return this.isLeader(this.player.name);
     },
     isShowTaskTeamSign() {
-      return this.isSelectedTaskTeamPlayer(this.player.name);
+      const player = this.player.name;
+      return this.isSelectedTaskTeamPlayer(player) || this.isTaskTeamPlayer(player);
     },
     roleImageUrl() {
       return getRoleImageByRole(this.player.role);

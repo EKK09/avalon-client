@@ -73,7 +73,6 @@ export async function joinGameAction({ commit, state }, { handleSuccess, handleE
         } else {
           commit('addMessage', `等待 ${payload} 指派玩家`);
         }
-        commit('addMessage', `${payload.join(',')} 與您是同夥`);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TEAM_SIZE) {
         commit('setTeamSize', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {

@@ -212,7 +212,6 @@ export async function assignRevealPlayerAction({ state, commit }) {
 export async function assignGodStatementAction({ state, commit }, isGood) {
   try {
     commit('setStatus', GAME_STATUS.WAIT);
-    commit('setRevealPlayer', '');
     const statement = {
       god: state.user,
       isGood,
@@ -224,6 +223,7 @@ export async function assignGodStatementAction({ state, commit }, isGood) {
     };
     const socket = state.webSocket;
     socket.send(JSON.stringify(action));
+    commit('setRevealPlayer', '');
   } catch (error) {
     console.log(error);
   }

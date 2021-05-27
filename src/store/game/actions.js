@@ -87,6 +87,7 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         // TODO: 再說
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
         commit('updateTaskResultList', payload);
+        commit('resetMessage');
         commit('addMessage', `任務${payload[payload.length - 1] ? '成功' : '失敗'}`);
       } else if (type === GAME_ACTION_TYPE.ASSIGN_TASK) {
         commit('setSelectedTaskTeamList', payload);
@@ -105,11 +106,13 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
       } else if (type === GAME_ACTION_TYPE.DECLARE_REVEALED_PLAYER_LIST) {
         commit('setRevealedPlayerList', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_APPROVAL_LIST) {
+        commit('resetMessage');
         const unApprovePlayers = payload.filter((item) => !item.result).map((item) => item.player);
         const isApprove = unApprovePlayers.length < (state.playerList.length / 2);
         const resultText = isApprove ? '投票通過' : '投票不通過';
         const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(',')} 表示反對` : '無人反對';
-        const message = `${resultText} ${unApproveText}`;
+        const taskText = isApprove && getters.isTaskTeam ? '請進行任務投票' : '';
+        const message = `${resultText},${unApproveText} ${taskText}`;
         const status = isApprove && getters.isTaskTeam ? GAME_STATUS.VOTE : GAME_STATUS.WAIT;
         commit('addMessage', message);
         commit('setStatus', status);

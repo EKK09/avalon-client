@@ -21,5 +21,6 @@ export default function state() {
     teamSize: 0,
     round: 0,
     webSocket: null,
+    revealPlayer: '',
   };
 }

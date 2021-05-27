@@ -114,3 +114,63 @@ export async function startGameAction({ state }) {
     console.log(error);
   }
 }
+export async function assignTaskTeamAction({ state }) {
+  try {
+    const action = {
+      type: GAME_ACTION_TYPE.ASSIGN_TEAM,
+      payload: state.selectedTaskTeamList,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function voteTaskAction({ state }, isSuccess) {
+  try {
+    const action = {
+      type: GAME_ACTION_TYPE.VOTE,
+      payload: isSuccess,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function approveAction({ state }, isApprove) {
+  try {
+    const action = {
+      type: GAME_ACTION_TYPE.APPROVE,
+      payload: isApprove,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function assignRevealPlayerAction({ state }) {
+  try {
+    const action = {
+      type: GAME_ACTION_TYPE.ASSIGN_REVEAL_PLAYER,
+      payload: state.revealPlayer,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function assignGodStatementAction({ state }, statement) {
+  try {
+    const action = {
+      type: GAME_ACTION_TYPE.ASSIGN_GOD_STATEMENT,
+      payload: statement,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}

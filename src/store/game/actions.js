@@ -1,6 +1,6 @@
 import { createGameApi } from 'src/api/gameApi';
 import { GAME_ACTION_TYPE } from 'src/constants/action';
-import { GAME_ROLE } from 'src/constants/role';
+import { GAME_ROLE, getRoleNameByRole } from 'src/constants/role';
 import { GAME_STATUS } from 'src/constants/status';
 
 export async function createGameAction({ commit }, player) {
@@ -56,16 +56,16 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('setRole', payload);
         commit('updateUserRole', payload);
         commit('resetMessage');
-        commit('addMessage', `你的角色為 ${payload}`);
+        commit('addMessage', `你的角色為 ${getRoleNameByRole(payload)}`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL) {
         commit('revealEvilRole', payload);
-        commit('addMessage', `${payload.join(',')} 為邪惡方`);
+        commit('addMessage', `${payload.join(',')} 為邪惡陣營`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_MERLIN) {
         commit('revealMerlin', payload);
         commit('addMessage', `${payload.join(',')} 的身份為梅林？`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL_EACH) {
         commit('revealEvilRole', payload);
-        commit('addMessage', `${payload.join(',')} 與您是同夥`);
+        commit('addMessage', `${payload.join(',')} 為同夥`);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
         commit('resetSelectedTaskTeamList');
         commit('resetTaskTeamList');

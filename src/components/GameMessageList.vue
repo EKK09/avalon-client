@@ -5,7 +5,7 @@
   >
     <MessageBoard :message="messageBoaredText" />
     <q-icon
-      v-if="isShowNextButton"
+      v-if="hasNextMessage"
       id="next-button"
       name="arrow_drop_down"
       size="lg"
@@ -32,14 +32,16 @@ export default {
     messageBoaredText() {
       return this.messageList[0];
     },
-    isShowNextButton() {
+    hasNextMessage() {
       return this.messageList.length > 1;
     },
   },
   methods: {
     ...mapMutations('game', ['shiftMessage']),
     handleNextMessage() {
-      this.shiftMessage();
+      if (this.hasNextMessage) {
+        this.shiftMessage();
+      }
     },
   },
 };

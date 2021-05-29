@@ -54,6 +54,24 @@
             </q-avatar>
           </div>
         </div>
+        <div class="row q-pt-sm">
+          <div
+            v-for="n in unApproveCount"
+            :key="n"
+            class="flex flex-center"
+          >
+            <q-avatar
+              size="30px"
+              color="black"
+              text-color="white"
+              class="q-mx-sm"
+            >
+              <img
+                src="unapprove.jpg"
+              >
+            </q-avatar>
+          </div>
+        </div>
       </q-item-section>
     </q-item>
   </q-header>
@@ -66,7 +84,7 @@ export default {
   name: 'GameHeader',
   computed: {
     ...mapGetters('game', ['userRoleImage']),
-    ...mapState('game', ['roomId', 'taskResultList', 'user']),
+    ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount']),
   },
 };
 </script>

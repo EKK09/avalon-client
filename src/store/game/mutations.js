@@ -135,3 +135,9 @@ export function setRevealPlayer(state, player) {
 export function setRevealedPlayerList(state, players) {
   state.revealedPlayerList = players;
 }
+export function setUnApproveCount(state, count) {
+  state.unApproveCount = count;
+}
+export function resetUnApproveCount(state) {
+  state.unApproveCount = 0;
+}

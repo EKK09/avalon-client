@@ -127,6 +127,8 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('updatePlayerRole', { name: playerName, role });
         commit('addMessage', message);
         commit('setStatus', GAME_STATUS.ASSIGN_GOD_STATEMENT);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_UNAPPROVAL_COUNT) {
+        commit('setUnApproveCount', payload);
       }
     });
     socket.addEventListener('error', (event) => {

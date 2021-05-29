@@ -104,6 +104,8 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         const isGod = state.user === payload;
         const status = isGod ? GAME_STATUS.SELECT_REVEAL_PLAYER : GAME_STATUS.WAIT;
         const message = isGod ? '湖中女神出現，請選擇你想檢視的玩家' : '湖中女神出現，等待湖中女神的指示';
+        commit('resetSelectedTaskTeamList');
+        commit('resetTaskTeamList');
         commit('setStatus', status);
         commit('addMessage', message);
       } else if (type === GAME_ACTION_TYPE.DECLARE_REVEALED_PLAYER_LIST) {

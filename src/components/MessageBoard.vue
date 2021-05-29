@@ -22,22 +22,27 @@ export default {
   },
   computed: {
     text() {
+      if (!this.message) {
+        return '';
+      }
       return this.message.substr(0, this.textCount);
     },
   },
   watch: {
-    message() {
+    message(val) {
       this.textCount = 1;
-      this.setTypeMessageTimer();
+      console.log({ message: val });
+      clearInterval(this.timer);
+      if (val) {
+        this.setTypeMessageTimer();
+      }
     },
-
   },
   mounted() {
     this.setTypeMessageTimer();
   },
   methods: {
     async setTypeMessageTimer() {
-      clearInterval(this.timer);
       this.timer = setInterval(() => {
         console.log('tick');
 

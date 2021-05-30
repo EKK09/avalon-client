@@ -46,6 +46,15 @@
         <img src="god.jpg">
       </q-avatar>
     </q-badge>
+    <q-badge
+      class="q-pa-none bg-transparent absolute"
+      floating
+      rounded
+    >
+      <q-avatar size="40px">
+        <img src="kill.jpg">
+      </q-avatar>
+    </q-badge>
   </div>
 </template>
 
@@ -71,6 +80,7 @@ export default {
     ...mapState('game', [
       'status',
       'revealPlayer',
+      'killPlayer',
       'revealedPlayerList',
     ]),
 
@@ -80,6 +90,9 @@ export default {
 
     isShowLeaderSign() {
       return this.isLeader(this.player.name);
+    },
+    isShowKillSign() {
+      return this.killPlayer === this.player.name;
     },
     isShowTaskTeamSign() {
       const player = this.player.name;
@@ -101,6 +114,7 @@ export default {
       'addSelectedTaskTeamPlayer',
       'removeSelectedTaskTeamPlayer',
       'setRevealPlayer',
+      'setKillPlayer',
     ]),
 
     handlePlayerClick() {
@@ -110,6 +124,10 @@ export default {
       }
       if (this.status === GAME_STATUS.SELECT_REVEAL_PLAYER) {
         this.handleSelectRevealPlayer();
+        return;
+      }
+      if (this.status === GAME_STATUS.SELECT_KILL_PLAYER) {
+        this.handleSelectKillPlayer();
       }
     },
 
@@ -129,6 +147,13 @@ export default {
       }
 
       this.setRevealPlayer(this.playerName);
+    },
+    handleSelectKillPlayer() {
+      if (this.killPlayer === '') {
+        this.setRevealPlayer(this.playerName);
+      } else {
+        this.setKillPlayer('');
+      }
     },
   },
 };

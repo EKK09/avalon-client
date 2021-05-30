@@ -88,6 +88,8 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
         commit('updateTaskResultList', payload);
         commit('resetMessage');
+        commit('resetTaskTeamList');
+        commit('resetSelectedTaskTeamList');
         commit('addMessage', `任務${payload[payload.length - 1] ? '成功' : '失敗'}`);
       } else if (type === GAME_ACTION_TYPE.ASSIGN_TASK) {
         commit('setSelectedTaskTeamList', payload);

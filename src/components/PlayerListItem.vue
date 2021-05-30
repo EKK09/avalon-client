@@ -47,6 +47,7 @@
       </q-avatar>
     </q-badge>
     <q-badge
+      v-show="isShowKillSign"
       class="q-pa-none bg-transparent absolute"
       floating
       rounded

@@ -18,7 +18,7 @@
             height="140px"
           />
           <div class="text-bold ellipsis full-width text-center">
-            David
+            {{ user }}
           </div>
         </div>
       </q-item-section>

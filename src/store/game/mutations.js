@@ -47,6 +47,19 @@ export function updatePlayerRole(state, { name, role }) {
     }
   }
 }
+export function revealAssassin(state, name) {
+  const players = state.playerList;
+  for (let index = 0; index < players.length; index += 1) {
+    const player = players[index];
+    if (player.name === name) {
+      state.playerList.splice(index, 1, {
+        name,
+        role: GAME_ROLE.ASSASSIN,
+      });
+      return;
+    }
+  }
+}
 export function revealEvilRole(state, evils) {
   const players = state.playerList;
   for (let index = 0; index < players.length; index += 1) {
@@ -131,6 +144,9 @@ export function setWebSocket(state, socket) {
 }
 export function setRevealPlayer(state, player) {
   state.revealPlayer = player;
+}
+export function setKillPlayer(state, player) {
+  state.killPlayer = player;
 }
 export function setRevealedPlayerList(state, players) {
   state.revealedPlayerList = players;

@@ -131,6 +131,15 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('setStatus', GAME_STATUS.ASSIGN_GOD_STATEMENT);
       } else if (type === GAME_ACTION_TYPE.DECLARE_UNAPPROVAL_COUNT) {
         commit('setUnApproveCount', payload);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_ASSASSIN) {
+        commit('revealAssassin', payload);
+        commit('resetMessage');
+        const isAssassin = payload === state.user;
+        const status = isAssassin ? GAME_STATUS.SELECT_KILL_PLAYER : GAME_STATUS.WAIT;
+        commit('setStatus', status);
+        const commandText = isAssassin ? '請選擇要刺殺的玩家' : '';
+        const message = `刺客登場( ${payload} ) ！！！ 梅林危險了 ${commandText}`;
+        commit('addMessage', message);
       }
     });
     socket.addEventListener('error', (event) => {
@@ -228,6 +237,19 @@ export async function assignGodStatementAction({ state, commit }, isGood) {
     const socket = state.webSocket;
     socket.send(JSON.stringify(action));
     commit('setRevealPlayer', '');
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function assignKillPlayerAction({ state, commit }) {
+  try {
+    commit('setStatus', GAME_STATUS.WAIT);
+    const action = {
+      type: GAME_ACTION_TYPE.ASSIGN_KILL_PLAYER,
+      payload: state.killPlayer,
+    };
+    const socket = state.webSocket;
+    socket.send(JSON.stringify(action));
   } catch (error) {
     console.log(error);
   }

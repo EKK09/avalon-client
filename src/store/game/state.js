@@ -22,6 +22,7 @@ export default function state() {
     round: 0,
     webSocket: null,
     revealPlayer: '',
+    killPlayer: '',
     revealedPlayerList: [],
     unApproveCount: 0,
   };

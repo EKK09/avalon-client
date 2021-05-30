@@ -151,7 +151,7 @@ export default {
     },
     handleSelectKillPlayer() {
       if (this.killPlayer === '') {
-        this.setRevealPlayer(this.playerName);
+        this.setKillPlayer(this.playerName);
       } else {
         this.setKillPlayer('');
       }

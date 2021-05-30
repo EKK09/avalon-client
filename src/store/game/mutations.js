@@ -47,6 +47,16 @@ export function updatePlayerRole(state, { name, role }) {
     }
   }
 }
+export function revealAllPlayer(state, role) {
+  const players = state.playerList;
+  for (let index = 0; index < players.length; index += 1) {
+    const player = players[index];
+    state.playerList.splice(index, 1, {
+      name: player.name,
+      role: role[player.name],
+    });
+  }
+}
 export function revealAssassin(state, name) {
   const players = state.playerList;
   for (let index = 0; index < players.length; index += 1) {

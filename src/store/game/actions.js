@@ -140,6 +140,15 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         const commandText = isAssassin ? '請選擇要刺殺的玩家' : '';
         const message = `刺客登場( ${payload} ) ！！！ 梅林危險了 ${commandText}`;
         commit('addMessage', message);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_GAME_RESULT) {
+        const { result, isMerlinKilled, role } = payload;
+        const title = result ? '正義陣營獲勝' : '邪惡陣營獲勝';
+        const killText = isMerlinKilled ? '梅林遭到刺殺!!!' : '';
+        const message = title + killText;
+
+        commit('setStatus', GAME_STATUS.END);
+        commit('revealAllPlayer', role);
+        commit('addMessage', message);
       }
     });
     socket.addEventListener('error', (event) => {

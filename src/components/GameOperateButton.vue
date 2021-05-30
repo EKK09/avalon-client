@@ -87,6 +87,16 @@
       @click="assignGodState(false)"
     />
   </div>
+  <q-btn
+    v-else-if="isShowAssignKillPlayerButton"
+    padding="0"
+    round
+    @click="assignKillPlayer"
+  >
+    <q-avatar size="65px">
+      <img src="kill.jpg">
+    </q-avatar>
+  </q-btn>
 </template>
 
 <script>
@@ -105,6 +115,7 @@ export default {
       'teamSize',
       'revealPlayer',
       'selectedTaskTeamList',
+      'killPlayer',
     ]),
     ...mapGetters('game', [
       'isHost',
@@ -130,6 +141,9 @@ export default {
     isShowAssignRevealPlayerButton() {
       return this.status === GAME_STATUS.SELECT_REVEAL_PLAYER;
     },
+    isShowAssignKillPlayerButton() {
+      return this.status === GAME_STATUS.SELECT_KILL_PLAYER;
+    },
   },
   methods: {
     ...mapActions('game', [
@@ -139,6 +153,7 @@ export default {
       'approveAction',
       'assignGodStatementAction',
       'assignRevealPlayerAction',
+      'assignKillPlayerAction',
     ]),
     handleStart() {
       if (this.isValidGamePlayerCount === false) {
@@ -175,6 +190,16 @@ export default {
     },
     assignGodState(isGood) {
       this.assignGodStatementAction(isGood);
+    },
+
+    assignKillPlayer() {
+      if (this.killPlayer === '') {
+        this.$q.notify({
+          message: '請選擇刺殺玩家',
+        });
+        return;
+      }
+      this.assignKillPlayerAction();
     },
   },
 };

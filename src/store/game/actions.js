@@ -133,7 +133,6 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('setUnApproveCount', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_ASSASSIN) {
         commit('revealAssassin', payload);
-        commit('resetMessage');
         const isAssassin = payload === state.user;
         const status = isAssassin ? GAME_STATUS.SELECT_KILL_PLAYER : GAME_STATUS.WAIT;
         commit('setStatus', status);

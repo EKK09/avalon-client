@@ -65,7 +65,8 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('addMessage', `${payload.join(',')} 的身份為梅林？`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL_EACH) {
         commit('revealEvilRole', payload);
-        commit('addMessage', `${payload.join(',')} 為同夥`);
+        const message = payload.length > 1 ? `${payload.join(',')} 為同夥` : '您沒有同夥';
+        commit('addMessage', message);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
         commit('resetSelectedTaskTeamList');
         commit('resetTaskTeamList');

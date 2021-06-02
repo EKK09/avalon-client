@@ -84,13 +84,15 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('addMessage', `本回出任務玩家${payload.join(',')}`);
         commit('setStatus', GAME_STATUS.APPROVE);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {
-        // TODO: 再說
-      } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
-        commit('updateTaskResultList', payload);
+        const failCountText = `${payload.failCount} 票反對，`;
+        const resultText = payload.result ? '任務成功' : '任務失敗';
+        const message = failCountText + resultText;
         commit('resetMessage');
         commit('resetTaskTeamList');
         commit('resetSelectedTaskTeamList');
-        commit('addMessage', `任務${payload[payload.length - 1] ? '成功' : '失敗'}`);
+        commit('addMessage', message);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_LIST) {
+        commit('updateTaskResultList', payload);
       } else if (type === GAME_ACTION_TYPE.ASSIGN_TASK) {
         commit('setSelectedTaskTeamList', payload);
         if (payload.includes(state.user)) {

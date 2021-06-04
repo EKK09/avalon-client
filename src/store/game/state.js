@@ -25,5 +25,6 @@ export default function state() {
     killPlayer: '',
     revealedPlayerList: [],
     unApproveCount: 0,
+    offlinePlayerList: [],
   };
 }

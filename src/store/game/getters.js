@@ -37,3 +37,6 @@ export function isHost(state) {
 export function isStarted(state) {
   return state.round > 0;
 }
+export function isShowGameDialog(state) {
+  return state.offlinePlayerList.length > 0;
+}

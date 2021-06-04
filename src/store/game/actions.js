@@ -153,6 +153,10 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
         commit('setStatus', GAME_STATUS.END);
         commit('revealAllPlayer', role);
         commit('addMessage', message);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_OFFLINE) {
+        commit('addOfflinePlayer', payload);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_PLAYER_RETURN) {
+        commit('removeOfflinePlayer', payload);
       }
     });
     socket.addEventListener('error', (event) => {

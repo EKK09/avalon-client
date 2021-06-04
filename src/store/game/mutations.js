@@ -34,6 +34,20 @@ export function addPlayer(state, playerName) {
     role: GAME_ROLE.UNKNOWN,
   });
 }
+export function setOfflinePlayerList(state, players) {
+  state.offlinePlayerList = players;
+}
+export function addOfflinePlayer(state, playerName) {
+  state.offlinePlayerList.push(playerName);
+}
+export function removeOfflinePlayer(state, playerName) {
+  for (let index = 0; index < state.offlinePlayerList.length; index += 1) {
+    if (playerName === state.offlinePlayerList[index]) {
+      state.offlinePlayerList.splice(index, 1);
+      return;
+    }
+  }
+}
 export function updatePlayerRole(state, { name, role }) {
   const players = state.playerList;
   for (let index = 0; index < players.length; index += 1) {

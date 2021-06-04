@@ -8,6 +8,7 @@
         padding
       >
         <PlayerList />
+        <GameDialog />
       </q-page>
     </q-page-container>
     <GameFooter />
@@ -18,6 +19,7 @@
 import GameHeader from 'src/components/GameHeader.vue';
 import GameFooter from 'src/components/GameFooter.vue';
 import PlayerList from 'src/components/PlayerList.vue';
+import GameDialog from 'src/components/GameDialog.vue';
 
 export default {
   name: 'GameLayout',
@@ -25,6 +27,7 @@ export default {
     GameHeader,
     GameFooter,
     PlayerList,
+    GameDialog,
   },
   data() {
     return {

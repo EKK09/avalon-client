@@ -4,7 +4,10 @@
     bordered
     class="bg-blue-grey-9"
   >
-    <q-item class="q-pa-sm">
+    <q-item
+      class="q-pa-sm"
+      dense
+    >
       <q-item-section avatar>
         <div
           style="width: 100px"
@@ -31,8 +34,8 @@
             class="flex flex-center"
           >
             <q-avatar
-              size="65px"
-              font-size="26px"
+              size="55px"
+              font-size="18px"
               color="black"
               text-color="white"
               class="q-mx-sm text-no-wrap"

@@ -73,18 +73,40 @@
           </div>
         </div>
       </q-item-section>
+      <q-item-section
+        side
+        top
+      >
+        <q-btn
+          icon="help_outline"
+          round
+          text-color="primary"
+          size="md"
+          padding="0"
+          push
+          @click="handleQuestionclick"
+        />
+      </q-item-section>
     </q-item>
+    <GameRoleDialog ref="gameRoleDialog" />
   </q-header>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import GameRoleDialog from 'src/components/GameRoleDialog.vue';
 
 export default {
   name: 'GameHeader',
+  components: { GameRoleDialog },
   computed: {
     ...mapGetters('game', ['userRoleImage']),
     ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount']),
+  },
+  methods: {
+    handleQuestionclick() {
+      this.$refs.gameRoleDialog.showDialog();
+    },
   },
 };
 </script>

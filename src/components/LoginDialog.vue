@@ -43,7 +43,10 @@
           </template>
         </q-input>
       </q-card-section>
-      <q-card-actions align="center">
+      <q-card-actions
+        v-show="isShowButton"
+        align="center"
+      >
         <q-btn
           :loading="isLoging"
           :label="buttonText"
@@ -79,6 +82,9 @@ export default {
         return '加入遊戲';
       }
       return '建立遊戲';
+    },
+    isShowButton() {
+      return this.player !== '';
     },
   },
   mounted() {

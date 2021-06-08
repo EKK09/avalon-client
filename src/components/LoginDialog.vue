@@ -55,6 +55,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { setPlayerName, getPlayerNameFromCookie } from 'src/common/cookieHandler';
 
 export default {
   name: 'LoginDialog',
@@ -81,6 +82,8 @@ export default {
     if (roomId) {
       this.roomId = roomId;
     }
+    const playerName = getPlayerNameFromCookie();
+    this.player = playerName;
   },
   methods: {
     ...mapMutations('game', [
@@ -95,7 +98,7 @@ export default {
       const handleSuccess = () => {};
       const handleError = () => {
         this.$q.notify({
-          message: '建立遊戲失敗',
+          message: '遊戲連線錯誤',
         });
       };
       await this.createGameAction({
@@ -108,7 +111,7 @@ export default {
       const handleSuccess = () => {};
       const handleError = () => {
         this.$q.notify({
-          message: '加入遊戲失敗',
+          message: '遊戲連線錯誤',
         });
       };
       await this.joinGameAction({
@@ -122,6 +125,7 @@ export default {
         });
         return;
       }
+      setPlayerName(this.player);
       if (this.roomId !== '') {
         await this.handleJoin();
       } else {

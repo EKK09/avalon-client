@@ -88,7 +88,7 @@ module.exports = function (/* ctx */) {
       config: {
         notify: {
           timeout: '1000',
-          position: 'top',
+          position: 'center',
         },
       },
       cssAddon: true,
@@ -107,6 +107,7 @@ module.exports = function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Notify',
+        'Cookies',
       ],
     },
 

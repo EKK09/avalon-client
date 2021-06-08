@@ -3,7 +3,9 @@ import { GAME_ACTION_TYPE } from 'src/constants/action';
 import { GAME_ROLE, getRoleNameByRole } from 'src/constants/role';
 import { GAME_STATUS } from 'src/constants/status';
 
-export async function createGameAction({ commit }, player) {
+export async function createGameAction({ dispatch }, {
+  player, handleSuccess, handleError,
+}) {
   try {
     const body = {
       player_name: player,
@@ -11,21 +13,29 @@ export async function createGameAction({ commit }, player) {
     const response = await createGameApi(body);
     console.log(response.data);
     const roomId = response.data.room_id;
-    commit('setRoomId', roomId);
-    commit('setUser', player);
+    if (!roomId) {
+      throw new Error();
+    }
+    dispatch('joinGameAction', {
+      player, roomId, handleSuccess, handleError,
+    });
   } catch (error) {
     console.log(error);
+    handleError();
   }
 }
-export async function joinGameAction({ commit, state, getters }, { handleSuccess, handleError }) {
+export async function joinGameAction({ commit, state, getters }, {
+  player, roomId, handleSuccess, handleError,
+}) {
   try {
-    const serverUrl = `${process.env.AVALON_WEBSOCKET_SERVER_URL}/${state.roomId}/${state.user}`;
+    const serverUrl = `${process.env.AVALON_WEBSOCKET_SERVER_URL}/${roomId}/${player}`;
     const socket = new WebSocket(serverUrl);
 
     // Connection opened
     socket.addEventListener('open', () => {
+      commit('setRoomId', roomId);
+      commit('setUser', player);
       handleSuccess();
-      socket.send('Hello Server!');
     });
 
     // Listen for messages
@@ -48,7 +58,7 @@ export async function joinGameAction({ commit, state, getters }, { handleSuccess
 
       const { type, payload } = action;
       if (type === GAME_ACTION_TYPE.DECLARE_PLAYER) {
-        const players = payload.map((player) => ({ name: player, role: GAME_ROLE.UNKNOWN }));
+        const players = payload.map((name) => ({ name, role: GAME_ROLE.UNKNOWN }));
         commit('setPlayerList', players);
       } else if (type === GAME_ACTION_TYPE.DECLARE_ROUND) {
         commit('setRound', payload);

@@ -171,9 +171,13 @@ export async function joinGameAction({ commit, state, getters }, {
     });
     socket.addEventListener('error', (event) => {
       console.log('error from server ', event.data);
+      commit('resetBasicGameInfo');
+      handleError();
     });
     socket.addEventListener('close', (event) => {
       console.log('close from server ', event.data);
+      commit('resetBasicGameInfo');
+      handleError();
     });
     commit('setWebSocket', socket);
   } catch (error) {

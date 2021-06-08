@@ -6,6 +6,10 @@ export function setRoomId(state, value) {
 export function setUser(state, value) {
   state.user = value;
 }
+export function resetBasicGameInfo(state) {
+  state.roomId = '';
+  state.user = '';
+}
 export function setRole(state, value) {
   state.role = value;
 }

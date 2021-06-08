@@ -1,10 +1,6 @@
 const routes = [
   {
-    path: '/',
-    component: () => import('pages/EntrancePage.vue'),
-  },
-  {
-    path: '/game',
+    path: '/:roomId?',
     component: () => import('layouts/GameLayout.vue'),
   },
 

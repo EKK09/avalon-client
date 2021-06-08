@@ -9,6 +9,7 @@
       >
         <PlayerList />
         <GameDialog />
+        <LoginDialog />
       </q-page>
     </q-page-container>
     <GameFooter />
@@ -20,6 +21,7 @@ import GameHeader from 'src/components/GameHeader.vue';
 import GameFooter from 'src/components/GameFooter.vue';
 import PlayerList from 'src/components/PlayerList.vue';
 import GameDialog from 'src/components/GameDialog.vue';
+import LoginDialog from 'src/components/LoginDialog.vue';
 
 export default {
   name: 'GameLayout',
@@ -28,6 +30,7 @@ export default {
     GameFooter,
     PlayerList,
     GameDialog,
+    LoginDialog,
   },
   data() {
     return {

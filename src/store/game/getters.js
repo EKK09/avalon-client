@@ -40,3 +40,6 @@ export function isStarted(state) {
 export function isShowGameDialog(state) {
   return state.offlinePlayerList.length > 0;
 }
+export function isShowLoginDialog(state) {
+  return state.roomId === '' || state.user === '';
+}

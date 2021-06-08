@@ -45,6 +45,7 @@
       </q-card-section>
       <q-card-actions align="center">
         <q-btn
+          :loading="isLoging"
           :label="buttonText"
           @click="handleClick"
         />
@@ -56,6 +57,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { setPlayerName, getPlayerNameFromCookie } from 'src/common/cookieHandler';
+import { sleep } from 'src/common/asyncHelper';
 
 export default {
   name: 'LoginDialog',
@@ -63,6 +65,8 @@ export default {
     return {
       player: '',
       roomId: '',
+      isLoging: false,
+      isButtonAvailable: true,
     };
   },
   computed: {
@@ -125,12 +129,26 @@ export default {
         });
         return;
       }
+      if (this.isButtonAvailable === false) {
+        this.$q.notify({
+          message: '請稍候在試！',
+        });
+        return;
+      }
       setPlayerName(this.player);
+      this.isLoging = true;
+      this.setClickTimer();
       if (this.roomId !== '') {
         await this.handleJoin();
       } else {
         await this.handleCreate();
       }
+      this.isLoging = false;
+    },
+    async setClickTimer() {
+      this.isButtonAvailable = false;
+      await sleep(5);
+      this.isButtonAvailable = true;
     },
   },
 };

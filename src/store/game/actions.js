@@ -35,7 +35,7 @@ export async function joinGameAction({ commit, state, getters }, {
     socket.addEventListener('open', () => {
       commit('setRoomId', roomId);
       commit('setUser', player);
-      handleSuccess();
+      handleSuccess(roomId);
     });
 
     // Listen for messages
@@ -167,6 +167,48 @@ export async function joinGameAction({ commit, state, getters }, {
         commit('addOfflinePlayer', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_PLAYER_RETURN) {
         commit('removeOfflinePlayer', payload);
+      } else if (type === GAME_ACTION_TYPE.DECLARE_GAME_INFO) {
+        const {
+          role,
+          leader,
+          teamSize,
+          playerList,
+          merlins,
+          evils,
+          taskList,
+          unApproveCount,
+          teamMemberList,
+          revealedPlayerList,
+          status,
+          isRevealedPlayerGood,
+        } = payload;
+
+        commit('setRole', role);
+        commit('setLeader', leader);
+        commit('setTeamSize', teamSize);
+        commit('setPlayerList', playerList.map((name) => ({ name, role: name === state.user ? role : GAME_ROLE.UNKNOWN })));
+        commit('revealMerlin', merlins);
+        commit('revealEvilRole', evils);
+        commit('updateTaskResultList', taskList);
+        commit('setTaskTeamList', teamMemberList);
+        commit('setUnApproveCount', unApproveCount);
+        commit('setRevealedPlayerList', revealedPlayerList);
+        commit('setStatus', status);
+        if (status === GAME_STATUS.VOTE) {
+          commit('addMessage', '任務玩家請投票');
+        } else if (status === GAME_STATUS.APPROVE) {
+          commit('addMessage', `本回出任務玩家${teamMemberList.join(',')}`);
+        } else if (status === GAME_STATUS.SELECT_TASK_PLAYER) {
+          commit('addMessage', `請選擇 ${teamSize} 位出任務玩家`);
+        } else if (status === GAME_STATUS.SELECT_REVEAL_PLAYER) {
+          commit('addMessage', '湖中女神出現，請選擇你想檢視的玩家');
+        } else if (status === GAME_STATUS.SELECT_KILL_PLAYER) {
+          commit('addMessage', '請選擇要刺殺的玩家');
+        } else if (status === GAME_STATUS.ASSIGN_GOD_STATEMENT) {
+          commit('addMessage', `${revealedPlayerList[revealedPlayerList.length - 1]} 角色是 ${isRevealedPlayerGood ? '忠臣' : '爪牙'} ，你想告訴大家？`);
+        } else if (status === GAME_STATUS.WAIT) {
+          commit('resetMessage');
+        }
       }
     });
     socket.addEventListener('error', (event) => {

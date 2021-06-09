@@ -59,7 +59,6 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import { setPlayerName, getPlayerNameFromCookie } from 'src/common/cookieHandler';
 import { sleep } from 'src/common/asyncHelper';
 
 export default {
@@ -92,7 +91,7 @@ export default {
     if (roomId) {
       this.roomId = roomId;
     }
-    const playerName = getPlayerNameFromCookie();
+    const playerName = this.$q.localStorage.getItem('player') || '';
     this.player = playerName;
   },
   methods: {
@@ -141,7 +140,7 @@ export default {
         });
         return;
       }
-      setPlayerName(this.player);
+      this.$q.localStorage.set('player', this.player);
       this.isLoging = true;
       this.setClickTimer();
       if (this.roomId !== '') {

@@ -104,7 +104,7 @@ export default {
       'joinGameAction',
     ]),
     async handleCreate() {
-      const handleSuccess = () => {};
+      const handleSuccess = (roomId) => { this.$router.push({ path: `/${roomId}` }).catch(() => console.log('test error')); };
       const handleError = () => {
         this.$q.notify({
           message: '遊戲連線錯誤',
@@ -117,7 +117,7 @@ export default {
       });
     },
     async handleJoin() {
-      const handleSuccess = () => {};
+      const handleSuccess = (roomId) => { this.$router.push({ path: `/${roomId}` }).catch(() => console.log('test error')); };
       const handleError = () => {
         this.$q.notify({
           message: '遊戲連線錯誤',

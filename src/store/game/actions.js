@@ -212,6 +212,10 @@ export async function joinGameAction({ commit, state, getters }, {
         } else if (status === GAME_STATUS.WAIT) {
           commit('addMessage', '等待其他玩家動作');
         }
+      } else if (type === GAME_ACTION_TYPE.DECLARE_KILL_RESULT) {
+        const isKillSuccess = payload;
+        const message = isKillSuccess ? '刺殺成功' : '刺殺失敗';
+        commit('addMessage', message);
       }
     });
     socket.addEventListener('error', (event) => {

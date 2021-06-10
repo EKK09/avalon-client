@@ -194,6 +194,9 @@ export async function joinGameAction({ commit, state, getters }, {
         commit('setUnApproveCount', unApproveCount);
         commit('setRevealedPlayerList', revealedPlayerList);
         commit('setStatus', status);
+        commit('resetMessage');
+        commit('addMessage', '連線成功！！');
+
         if (status === GAME_STATUS.VOTE) {
           commit('addMessage', '任務玩家請投票');
         } else if (status === GAME_STATUS.APPROVE) {
@@ -207,7 +210,7 @@ export async function joinGameAction({ commit, state, getters }, {
         } else if (status === GAME_STATUS.ASSIGN_GOD_STATEMENT) {
           commit('addMessage', `${revealedPlayerList[revealedPlayerList.length - 1]} 角色是 ${isRevealedPlayerGood ? '忠臣' : '爪牙'} ，你想告訴大家？`);
         } else if (status === GAME_STATUS.WAIT) {
-          commit('resetMessage');
+          commit('addMessage', '等待其他玩家動作');
         }
       }
     });

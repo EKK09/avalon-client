@@ -131,8 +131,6 @@ export default {
       this.isShowDialog = true;
     },
     onScroll(info) {
-      console.log(info);
-
       const { direction, position } = info;
       if (position < 80) {
         this.isShowCloseButton = true;

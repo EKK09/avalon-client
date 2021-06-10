@@ -77,7 +77,7 @@ export default {
     ]),
 
     buttonText() {
-      if (this.roomId !== '') {
+      if (this.roomId) {
         return '加入遊戲';
       }
       return '建立遊戲';
@@ -143,7 +143,7 @@ export default {
       this.$q.localStorage.set('player', this.player);
       this.isLoging = true;
       this.setClickTimer();
-      if (this.roomId !== '') {
+      if (this.roomId) {
         await this.handleJoin();
       } else {
         await this.handleCreate();

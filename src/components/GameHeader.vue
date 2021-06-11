@@ -80,22 +80,33 @@
           text-color="primary"
           size="md"
           padding="0"
-          push
+          class="q-my-sm"
           @click="handleQuestionclick"
+        />
+        <q-btn
+          icon="person_add"
+          text-color="primary"
+          size="md"
+          padding="0"
+          class="q-my-sm"
+          round
+          @click="handleInviteclick"
         />
       </q-item-section>
     </q-item>
     <GameRoleDialog ref="gameRoleDialog" />
+    <InviteDialog ref="inviteDialog" />
   </q-header>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
 import GameRoleDialog from 'src/components/GameRoleDialog.vue';
+import InviteDialog from 'src/components/InviteDialog.vue';
 
 export default {
   name: 'GameHeader',
-  components: { GameRoleDialog },
+  components: { GameRoleDialog, InviteDialog },
   computed: {
     ...mapGetters('game', ['userRoleImage']),
     ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount']),
@@ -103,6 +114,9 @@ export default {
   methods: {
     handleQuestionclick() {
       this.$refs.gameRoleDialog.showDialog();
+    },
+    handleInviteclick() {
+      this.$refs.inviteDialog.showDialog();
     },
   },
 };

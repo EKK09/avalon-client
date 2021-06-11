@@ -1,6 +1,7 @@
 <template>
   <div
     class="bg-black column items-center q-pt-sm q-px-sm relative-position"
+    :class="`bd-p${order}`"
     style="border-radius: 10px;"
     @click="handlePlayerClick"
   >
@@ -77,6 +78,7 @@ export default {
       'isLeader',
       'isSelectedTaskTeamPlayer',
       'isTaskTeamPlayer',
+      'playerOrder',
     ]),
     ...mapState('game', [
       'status',
@@ -84,6 +86,10 @@ export default {
       'killPlayer',
       'revealedPlayerList',
     ]),
+
+    order() {
+      return this.playerOrder(this.player.name);
+    },
 
     playerName() {
       return this.player.name;

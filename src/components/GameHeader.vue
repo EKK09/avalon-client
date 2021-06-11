@@ -8,37 +8,26 @@
       class="q-pa-sm"
       dense
     >
-      <q-item-section avatar>
-        <div
-          style="width: 100px"
-        >
-          <div class="text-bold fz-md ellipsis full-width">
-            房號: {{ roomId }}
-          </div>
-          <q-img
-            :src="userRoleImage"
-            width="100px"
-            height="140px"
-          />
-          <div class="text-bold ellipsis full-width text-center">
-            {{ user }}
-          </div>
-        </div>
-      </q-item-section>
-
       <q-item-section>
-        <div class="flex flex-center">
+        <q-item-label class="q-pa-sm text-bold">
+          房號: {{ roomId }}
+        </q-item-label>
+        <div
+          class="flex justify-center"
+          style="min-height: 80px"
+        >
           <div
             v-for="(result, index) in taskResultList"
             :key="index"
-            class="flex flex-center"
+            class="flex"
+            :class="index %2 === 0? '': 'content-end'"
           >
             <q-avatar
               size="55px"
               font-size="18px"
               color="black"
               text-color="white"
-              class="q-mx-sm text-no-wrap"
+              class="q-mx-sm text-no-wrap shadow-24"
             >
               <img
                 v-if="result === false"
@@ -57,9 +46,9 @@
             </q-avatar>
           </div>
         </div>
-        <div class="row q-pt-sm">
+        <div class="row q-pt-md justify-center">
           <div
-            v-for="n in unApproveCount"
+            v-for="n in 5"
             :key="n"
             class="flex flex-center"
           >
@@ -67,11 +56,16 @@
               size="30px"
               color="black"
               text-color="white"
-              class="q-mx-sm"
+              class="q-mx-sm relative-position overflow-hidden"
             >
               <img
                 src="unapprove.jpg"
               >
+              <div
+                v-show="n > unApproveCount"
+                class="fit bg-black absolute"
+                style="opacity: 0.7"
+              />
             </q-avatar>
           </div>
         </div>

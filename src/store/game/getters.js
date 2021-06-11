@@ -43,3 +43,14 @@ export function isShowGameDialog(state) {
 export function isShowLoginDialog(state) {
   return state.roomId === '' || state.user === '';
 }
+export function playerOrder(state) {
+  return (name) => {
+    for (let index = 0; index < state.playerList.length; index += 1) {
+      const player = state.playerList[index];
+      if (player.name === name) {
+        return index + 1;
+      }
+    }
+    return 0;
+  };
+}

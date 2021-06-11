@@ -8,9 +8,9 @@
     <q-img
       :src="roleImageUrl"
       basic
-      width="80px"
-      height="112px"
-      style="border-radius: 10px"
+      width="100%"
+      height="100%"
+      style="border-radius: 10px; max-width: 80px; max-height: 112px"
       no-default-spinner
     />
     <div class="text-bold ellipsis text-white fz-sm text-center full-width">

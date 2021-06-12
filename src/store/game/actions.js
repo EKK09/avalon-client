@@ -1,4 +1,4 @@
-import { createGameApi } from 'src/api/gameApi';
+import { createGameApi, fetchGameInfoApi } from 'src/api/gameApi';
 import { GAME_ACTION_TYPE } from 'src/constants/action';
 import { GAME_ROLE, getRoleNameByRole } from 'src/constants/role';
 import { GAME_STATUS } from 'src/constants/status';
@@ -330,6 +330,39 @@ export async function assignKillPlayerAction({ state, commit }) {
     };
     const socket = state.webSocket;
     socket.send(JSON.stringify(action));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function fetchGameInfoAction({ state, commit, getters }) {
+  try {
+    if (!state.roomId) {
+      throw new Error();
+    }
+    const response = await fetchGameInfoApi(state.roomId);
+
+    const {
+      player_info: playerInfo,
+      tasks,
+      killed,
+      un_approve_count: unApproveCount,
+    } = response.data;
+    const players = Object.keys(playerInfo).map((name) => ({
+      name,
+      role: playerInfo[name],
+    }));
+    commit('setPlayerList', players);
+    commit('setUnApproveCount', unApproveCount);
+    commit('updateTaskResultList', tasks);
+    if (killed) {
+      commit('setMerlinKilled');
+    }
+    commit('setGameOver');
+    commit('resetMessage');
+
+    const message = getters.isGoodWin ? '遊戲結束，正義陣營獲得勝利' : '遊戲結束，邪惡陣營獲得勝利';
+    const killedText = killed ? ' 梅林遭到刺殺' : '';
+    commit('addMessage', message + killedText);
   } catch (error) {
     console.log(error);
   }

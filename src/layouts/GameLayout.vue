@@ -36,6 +36,14 @@ export default {
     return {
     };
   },
+  async preFetch({ store, currentRoute }) {
+    console.log('prefetch');
+    const { roomId } = currentRoute.params;
+    if (roomId) {
+      store.commit('game/setRoomId', roomId);
+      await store.dispatch('game/fetchGameInfoAction');
+    }
+  },
   methods: {
     myTweak(offset) {
       // "offset" is a Number (pixels) that refers to the total

@@ -6,6 +6,12 @@ export function setRoomId(state, value) {
 export function setUser(state, value) {
   state.user = value;
 }
+export function setGameOver(state) {
+  state.isGameOver = true;
+}
+export function setMerlinKilled(state) {
+  state.isMerlinKilled = true;
+}
 export function resetBasicGameInfo(state) {
   state.roomId = '';
   state.user = '';

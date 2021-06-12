@@ -11,3 +11,7 @@ export const createGameApi = (body) => {
   const path = '/room';
   return avalonServer.post(path, body);
 };
+export const fetchGameInfoApi = (roomId) => {
+  const path = `/game/${roomId}`;
+  return avalonServer.get(path);
+};

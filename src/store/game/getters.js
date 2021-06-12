@@ -41,6 +41,10 @@ export function isShowGameDialog(state) {
   return state.offlinePlayerList.length > 0;
 }
 export function isShowLoginDialog(state) {
+  if (state.isGameOver) {
+    return false;
+  }
+
   return state.roomId === '' || state.user === '';
 }
 export function playerOrder(state) {
@@ -53,4 +57,11 @@ export function playerOrder(state) {
     }
     return 0;
   };
+}
+export function isGoodWin(state) {
+  if (state.unApproveCount === 5 || state.isMerlinKilled) {
+    return false;
+  }
+
+  return state.taskResultList.filter((task) => !!task).length >= 3;
 }

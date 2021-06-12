@@ -26,5 +26,7 @@ export default function state() {
     revealedPlayerList: [],
     unApproveCount: 0,
     offlinePlayerList: [],
+    isGameOver: false,
+    isMerlinKilled: false,
   };
 }

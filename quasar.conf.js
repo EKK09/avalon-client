@@ -109,6 +109,7 @@ module.exports = function (/* ctx */) {
         'Notify',
         'Cookies',
         'LocalStorage',
+        'Meta',
       ],
     },
 

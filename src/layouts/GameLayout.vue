@@ -50,5 +50,23 @@ export default {
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' };
     },
   },
+  meta: {
+    title: 'Avalon',
+    meta: {
+      description: { name: 'description', content: '阿瓦隆(Avalon)是很熱門的陣營類桌遊，已經推出了好幾年，一直受到許多玩家熱愛。遊戲中玩家分成兩大陣營，每個陣營內有能力者和普通角色，玩家要通過邏輯推理和對話來試探彼此的陣營。' },
+      keywords: { name: 'keywords', content: 'avalon 桌遊 阿瓦隆' },
+      equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+      ogTitle: {
+        name: 'og:title',
+        content: '阿瓦隆 - 陣營對抗類桌遊',
+      },
+      ogDescription: {
+        name: 'og:description',
+        content: '阿瓦隆(Avalon)是很熱門的陣營類桌遊，已經推出了好幾年，一直受到許多玩家熱愛。遊戲中玩家分成兩大陣營，每個陣營內有能力者和普通角色，玩家要通過邏輯推理和對話來試探彼此的陣營。',
+      },
+      ogImage: { name: 'og:image', content: `${process.env.AVALON_CLIENT_URL}/assassin.jpg` },
+      ogUrl: { name: 'og:url', content: process.env.AVALON_CLIENT_URL },
+    },
+  },
 };
 </script>

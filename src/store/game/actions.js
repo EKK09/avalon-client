@@ -163,6 +163,7 @@ export async function joinGameAction({ commit, state, getters }, {
         commit('setStatus', GAME_STATUS.END);
         commit('revealAllPlayer', role);
         commit('addMessage', message);
+        commit('setGameOver');
       } else if (type === GAME_ACTION_TYPE.DECLARE_OFFLINE) {
         commit('addOfflinePlayer', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_PLAYER_RETURN) {

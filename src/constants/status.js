@@ -1,4 +1,5 @@
 export const GAME_STATUS = {
+  WAIT_START: 'WAIT_START',
   WAIT: 'WAIT',
   VOTE: 'VOTE',
   APPROVE: 'APPROVE',

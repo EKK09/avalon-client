@@ -124,7 +124,7 @@ export default {
     ]),
 
     isShowStartButton() {
-      return this.status === GAME_STATUS.WAIT && this.isHost && !this.isStarted;
+      return this.status === GAME_STATUS.WAIT_START && this.isHost && !this.isStarted;
     },
     isShowSelectTaskTeamButton() {
       return this.status === GAME_STATUS.SELECT_TASK_PLAYER;

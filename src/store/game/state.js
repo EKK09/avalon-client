@@ -16,7 +16,7 @@ export default function state() {
     taskTeamList: [],
     taskResultList: [],
     messageList: ['等待玩家就位，遊戲人數 5 ~ 10'],
-    status: GAME_STATUS.WAIT,
+    status: GAME_STATUS.WAIT_START,
     selectedTaskTeamList: [],
     teamSize: 0,
     round: 0,

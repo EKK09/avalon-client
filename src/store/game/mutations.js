@@ -138,13 +138,7 @@ export function resetTaskTeamList(state) {
   state.taskTeamList = [];
 }
 export function updateTaskResultList(state, results) {
-  const taskResults = [...state.taskResultList];
-
-  results.forEach((result, index) => {
-    taskResults[index] = result;
-  });
-
-  state.taskResultList = taskResults;
+  state.taskResultList = results;
 }
 export function setTeamSize(state, teamSize) {
   state.teamSize = teamSize;

@@ -9,15 +9,18 @@
       dense
     >
       <q-item-section>
-        <q-item-label class="q-pa-sm text-bold">
-          房號: {{ roomId }}
+        <q-item-label
+          v-show="roomId && user"
+          class="q-pa-sm text-bold"
+        >
+          房號: {{ roomId }} 玩家: {{ user }}
         </q-item-label>
         <div
           class="flex justify-center"
           style="min-height: 80px"
         >
           <div
-            v-for="(result, index) in taskResultList"
+            v-for="index in 5"
             :key="index"
             class="flex"
             :class="index %2 === 0? '': 'content-end'"
@@ -27,21 +30,21 @@
               font-size="18px"
               color="black"
               text-color="white"
-              class="q-mx-sm text-no-wrap shadow-24"
+              class="q-mx-sm text-no-wrap shadow-24 flex flex-center"
             >
               <img
-                v-if="result === false"
+                v-if="taskResultList[index-1] === false"
                 src="score_fail.jpg"
               >
               <img
-                v-else-if="result === true"
+                v-else-if="taskResultList[index-1] === true"
                 src="score_success.jpg"
               >
 
               <template
-                v-else-if="result === undefined"
+                v-else-if="taskResultList[index-1] === undefined"
               >
-                任務{{ index + 1 }}
+                任務{{ index }}
               </template>
             </q-avatar>
           </div>

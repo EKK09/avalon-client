@@ -364,6 +364,6 @@ export async function fetchGameInfoAction({ state, commit, getters }) {
     const killedText = killed ? ' 梅林遭到刺殺' : '';
     commit('addMessage', message + killedText);
   } catch (error) {
-    console.log(error);
+    console.log('fetchGameInfoAction error');
   }
 }

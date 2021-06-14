@@ -44,8 +44,6 @@ export default {
   methods: {
     async setTypeMessageTimer() {
       this.timer = setInterval(() => {
-        console.log('tick');
-
         this.textCount += 1;
         if (this.textCount >= this.message.length) {
           clearInterval(this.timer);

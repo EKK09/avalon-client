@@ -10,10 +10,10 @@
     >
       <q-item-section>
         <q-item-label
-          v-show="roomId && user"
+          v-show="roomId"
           class="q-pa-sm text-bold"
         >
-          房號: {{ roomId }} 玩家: {{ user }}
+          No. {{ roomId }} <span v-show="user">({{ user }})</span>
         </q-item-label>
         <div
           class="flex justify-center"

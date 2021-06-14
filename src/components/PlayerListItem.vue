@@ -9,7 +9,7 @@
       :src="roleImageUrl"
       basic
       width="100%"
-      height="100%"
+      height="112px"
       style="border-radius: 10px; max-width: 80px; max-height: 112px"
       no-default-spinner
     />

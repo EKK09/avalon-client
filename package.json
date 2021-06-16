@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "quasar dev --mode ssr",
     "build": "quasar build --mode ssr",
+    "start": "node ./dist/ssr/index.js",
     "lint": "eslint --fix --ext .js,.vue ./"
   },
   "dependencies": {

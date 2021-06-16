@@ -32,12 +32,12 @@ export default {
     GameDialog,
     LoginDialog,
   },
-  async created() {
-    console.log('created');
-    const { roomId } = this.$route.params;
+  async preFetch({ store, currentRoute }) {
+    console.log('preFetch');
+    const { roomId } = currentRoute.params;
     if (roomId) {
-      this.$store.commit('game/setRoomId', roomId);
-      await this.$store.dispatch('game/fetchGameInfoAction');
+      store.commit('game/setRoomId', roomId);
+      await store.dispatch('game/fetchGameInfoAction');
     }
   },
   methods: {

@@ -33,6 +33,9 @@ export default {
     LoginDialog,
   },
   async preFetch({ store, currentRoute }) {
+    if (process.env.CLIENT) {
+      return;
+    }
     console.log('preFetch');
     const { roomId } = currentRoute.params;
     if (roomId) {

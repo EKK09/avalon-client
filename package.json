@@ -6,8 +6,8 @@
   "author": "wei",
   "private": true,
   "scripts": {
-    "dev": "quasar dev",
-    "build": "quasar build",
+    "dev": "quasar dev --mode ssr",
+    "build": "quasar build --mode ssr",
     "lint": "eslint --fix --ext .js,.vue ./"
   },
   "dependencies": {

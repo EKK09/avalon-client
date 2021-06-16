@@ -26,7 +26,7 @@ export function resetMessage(state) {
   state.messageList = [];
 }
 export function addMessage(state, message) {
-  const removeUserMessage = message.replace(state.user, '您');
+  const removeUserMessage = state.user ? message.replace(state.user, '您') : message;
   state.messageList.push(removeUserMessage);
 }
 export function shiftMessage(state) {

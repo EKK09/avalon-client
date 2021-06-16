@@ -69,13 +69,13 @@ export async function joinGameAction({ commit, state, getters }, {
         commit('addMessage', `你的角色為 ${getRoleNameByRole(payload)}`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL) {
         commit('revealEvilRole', payload);
-        commit('addMessage', `${payload.join(',')} 為邪惡陣營`);
+        commit('addMessage', `${payload.join(', ')} 為邪惡陣營`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_MERLIN) {
         commit('revealMerlin', payload);
-        commit('addMessage', `${payload.join(',')} 的身份為梅林？`);
+        commit('addMessage', `${payload.join(', ')} 的身份為梅林？`);
       } else if (type === GAME_ACTION_TYPE.REVEAL_EVIL_EACH) {
         commit('revealEvilRole', payload);
-        const message = payload.length > 1 ? `${payload.join(',')} 為同夥` : '您沒有同夥';
+        const message = payload.length > 1 ? `${payload.join(', ')} 為同夥` : '您沒有同夥';
         commit('addMessage', message);
       } else if (type === GAME_ACTION_TYPE.DECLARE_LEADER) {
         commit('resetSelectedTaskTeamList');
@@ -92,7 +92,7 @@ export async function joinGameAction({ commit, state, getters }, {
       } else if (type === GAME_ACTION_TYPE.DECLARE_TEAM) {
         commit('setTaskTeamList', payload);
         commit('resetMessage');
-        commit('addMessage', `本回出任務玩家${payload.join(',')}`);
+        commit('addMessage', `本回出任務玩家${payload.join(', ')}`);
         commit('setStatus', GAME_STATUS.APPROVE);
       } else if (type === GAME_ACTION_TYPE.DECLARE_TASK_RESULT) {
         const failCountText = `${payload.failCount} 票反對，`;
@@ -110,7 +110,7 @@ export async function joinGameAction({ commit, state, getters }, {
           commit('addMessage', '請出任務');
           commit('setStatus', GAME_STATUS.VOTE);
         } else {
-          commit('addMessage', `${payload.join(',')} 出任務中`);
+          commit('addMessage', `${payload.join(', ')} 出任務中`);
         }
       } else if (type === GAME_ACTION_TYPE.DECLARE_GOD_STATEMENT) {
         commit('setStatus', GAME_STATUS.WAIT);
@@ -130,7 +130,7 @@ export async function joinGameAction({ commit, state, getters }, {
         const unApprovePlayers = payload.filter((item) => !item.result).map((item) => item.player);
         const isApprove = unApprovePlayers.length < (state.playerList.length / 2);
         const resultText = isApprove ? '投票通過' : '投票不通過';
-        const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(',')} 表示反對` : '無人反對';
+        const unApproveText = unApprovePlayers.length > 0 ? `${unApprovePlayers.join(', ')} 表示反對` : '無人反對';
         const taskText = isApprove ? '任務玩家請投票' : '';
         const message = `${resultText},${unApproveText} ${taskText}`;
         const status = isApprove && getters.isTaskTeam ? GAME_STATUS.VOTE : GAME_STATUS.WAIT;
@@ -201,7 +201,7 @@ export async function joinGameAction({ commit, state, getters }, {
         if (status === GAME_STATUS.VOTE) {
           commit('addMessage', '任務玩家請投票');
         } else if (status === GAME_STATUS.APPROVE) {
-          commit('addMessage', `本回出任務玩家${teamMemberList.join(',')}`);
+          commit('addMessage', `本回出任務玩家${teamMemberList.join(', ')}`);
         } else if (status === GAME_STATUS.SELECT_TASK_PLAYER) {
           commit('addMessage', `請選擇 ${teamSize} 位出任務玩家`);
         } else if (status === GAME_STATUS.SELECT_REVEAL_PLAYER) {

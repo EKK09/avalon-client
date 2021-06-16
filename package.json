@@ -1,8 +1,8 @@
 {
   "name": "avalon-client",
   "version": "0.0.1",
-  "description": "good game",
-  "productName": "good game",
+  "description": "Avalon is a good game",
+  "productName": "Avalon game",
   "author": "wei",
   "private": true,
   "scripts": {

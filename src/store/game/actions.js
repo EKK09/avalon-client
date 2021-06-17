@@ -225,10 +225,12 @@ export async function joinGameAction({ commit, state, getters }, {
     socket.addEventListener('error', () => {
       console.log('socket error');
       commit('setIsConnectingGame', false);
+      commit('setWebSocket', null);
     });
     socket.addEventListener('close', () => {
       console.log('socket close');
       commit('setIsConnectingGame', false);
+      commit('setWebSocket', null);
       handleError();
     });
     commit('setWebSocket', socket);

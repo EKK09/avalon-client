@@ -47,6 +47,13 @@ export function isShowLoginDialog(state) {
 
   return state.roomId === '' || state.user === '';
 }
+export function isShowConnectingDialog(state) {
+  if (!state.roomId || !state.user) {
+    return false;
+  }
+
+  return state.webSocket === null;
+}
 export function playerOrder(state) {
   return (name) => {
     for (let index = 0; index < state.playerList.length; index += 1) {

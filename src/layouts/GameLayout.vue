@@ -9,6 +9,7 @@
       >
         <PlayerList />
         <GameDialog />
+        <GameConnectingDialog />
         <LoginDialog />
       </q-page>
     </q-page-container>
@@ -22,6 +23,7 @@ import GameFooter from 'src/components/GameFooter.vue';
 import PlayerList from 'src/components/PlayerList.vue';
 import GameDialog from 'src/components/GameDialog.vue';
 import LoginDialog from 'src/components/LoginDialog.vue';
+import GameConnectingDialog from 'src/components/GameConnectingDialog.vue';
 
 export default {
   name: 'GameLayout',
@@ -31,6 +33,7 @@ export default {
     PlayerList,
     GameDialog,
     LoginDialog,
+    GameConnectingDialog,
   },
   async preFetch({ store, currentRoute }) {
     if (process.env.CLIENT) {

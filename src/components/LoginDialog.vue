@@ -17,6 +17,7 @@
           no-error-icon
           :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 15 || '長度限制 15']"
           input-class="fz-md text-center text-orange-5"
+          :disable="isConnectingGame"
         >
           <template #before>
             <div class="text-h6 text-center text-orange-5">
@@ -34,6 +35,7 @@
           standout="text-orange-5"
           no-error-icon
           clearable
+          :disable="isConnectingGame"
           input-class="fz-md text-center text-orange-5"
         >
           <template #before>
@@ -48,7 +50,7 @@
         align="center"
       >
         <q-btn
-          :loading="isLoging"
+          :loading="isConnectingGame"
           :label="buttonText"
           @click="handleClick"
         />
@@ -58,7 +60,9 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import {
+  mapGetters, mapState, mapMutations, mapActions,
+} from 'vuex';
 import { sleep } from 'src/common/asyncHelper';
 
 export default {
@@ -67,13 +71,15 @@ export default {
     return {
       player: '',
       roomId: '',
-      isLoging: false,
       isButtonAvailable: true,
     };
   },
   computed: {
     ...mapGetters('game', [
       'isShowLoginDialog',
+    ]),
+    ...mapState('game', [
+      'isConnectingGame',
     ]),
 
     buttonText() {
@@ -141,14 +147,12 @@ export default {
         return;
       }
       this.$q.localStorage.set('player', this.player);
-      this.isLoging = true;
       this.setClickTimer();
       if (this.roomId) {
         await this.handleJoin();
       } else {
         await this.handleCreate();
       }
-      this.isLoging = false;
     },
     async setClickTimer() {
       this.isButtonAvailable = false;

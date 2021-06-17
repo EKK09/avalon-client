@@ -28,5 +28,6 @@ export default function state() {
     offlinePlayerList: [],
     isGameOver: false,
     isMerlinKilled: false,
+    isConnectingGame: false,
   };
 }

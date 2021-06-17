@@ -12,6 +12,9 @@ export function setGameOver(state) {
 export function setMerlinKilled(state) {
   state.isMerlinKilled = true;
 }
+export function setIsConnectingGame(state, value) {
+  state.isConnectingGame = value;
+}
 export function resetBasicGameInfo(state) {
   state.roomId = '';
   state.user = '';

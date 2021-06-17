@@ -3,10 +3,11 @@ import { GAME_ACTION_TYPE } from 'src/constants/action';
 import { GAME_ROLE, getRoleNameByRole } from 'src/constants/role';
 import { GAME_STATUS } from 'src/constants/status';
 
-export async function createGameAction({ dispatch }, {
+export async function createGameAction({ dispatch, commit }, {
   player, handleSuccess, handleError,
 }) {
   try {
+    commit('setIsConnectingGame', true);
     const body = {
       player_name: player,
     };
@@ -28,6 +29,7 @@ export async function joinGameAction({ commit, state, getters }, {
   player, roomId, handleSuccess, handleError,
 }) {
   try {
+    commit('setIsConnectingGame', true);
     const serverUrl = `${process.env.AVALON_WEBSOCKET_SERVER_URL}/${roomId}/${player}`;
     const socket = new WebSocket(serverUrl);
 
@@ -35,6 +37,7 @@ export async function joinGameAction({ commit, state, getters }, {
     socket.addEventListener('open', () => {
       commit('setRoomId', roomId);
       commit('setUser', player);
+      commit('setIsConnectingGame', false);
       handleSuccess(roomId);
     });
 
@@ -219,20 +222,20 @@ export async function joinGameAction({ commit, state, getters }, {
         commit('addMessage', message);
       }
     });
-    socket.addEventListener('error', (event) => {
-      console.log('error from server ', event.data);
-      commit('resetBasicGameInfo');
-      handleError();
+    socket.addEventListener('error', () => {
+      console.log('socket error');
+      commit('setIsConnectingGame', false);
     });
-    socket.addEventListener('close', (event) => {
-      console.log('close from server ', event.data);
-      commit('resetBasicGameInfo');
+    socket.addEventListener('close', () => {
+      console.log('socket close');
+      commit('setIsConnectingGame', false);
       handleError();
     });
     commit('setWebSocket', socket);
   } catch (error) {
     console.log(error);
     handleError();
+    commit('setIsConnectingGame', false);
   }
 }
 

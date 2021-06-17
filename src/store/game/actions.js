@@ -37,12 +37,16 @@ export async function joinGameAction({
 
     // Connection opened
     socket.addEventListener('open', () => {
+      window.clearInterval(window.socketTimer);
       commit('setWebSocket', socket);
       commit('setRoomId', roomId);
       commit('setUser', player);
       commit('setIsConnectingGame', false);
       handleSuccess(roomId);
       commit('resetReconnectCount');
+      window.socketTimer = setInterval(() => {
+        socket.send('check');
+      }, 50 * 1000);
     });
 
     // Listen for messages
@@ -231,9 +235,11 @@ export async function joinGameAction({
       console.log('socket error');
       commit('setIsConnectingGame', false);
       commit('setWebSocket', null);
+      window.clearInterval(window.socketTimer);
     });
     socket.addEventListener('close', () => {
       console.log('socket close');
+      window.clearInterval(window.socketTimer);
       commit('setIsConnectingGame', false);
       commit('setWebSocket', null);
       commit('incrementReconnectCount');

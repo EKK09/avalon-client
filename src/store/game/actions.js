@@ -171,6 +171,7 @@ export async function joinGameAction({
         commit('revealAllPlayer', role);
         commit('addMessage', message);
         commit('setGameOver');
+        state.webSocket.close();
       } else if (type === GAME_ACTION_TYPE.DECLARE_OFFLINE) {
         commit('addOfflinePlayer', payload);
       } else if (type === GAME_ACTION_TYPE.DECLARE_PLAYER_RETURN) {
@@ -236,7 +237,7 @@ export async function joinGameAction({
       commit('setIsConnectingGame', false);
       commit('setWebSocket', null);
       commit('incrementReconnectCount');
-      if (state.reconnectCount <= 3 && state.roomId && state.user) {
+      if (state.reconnectCount <= 3 && state.roomId && state.user && state.isGameOver === false) {
         dispatch('joinGameAction', {
           player: state.user,
           roomId: state.roomId,

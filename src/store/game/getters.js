@@ -38,6 +38,9 @@ export function isStarted(state) {
   return state.round > 0;
 }
 export function isShowGameDialog(state) {
+  if (state.isGameOver) {
+    return false;
+  }
   return state.offlinePlayerList.length > 0;
 }
 export function isShowLoginDialog(state) {
@@ -48,6 +51,9 @@ export function isShowLoginDialog(state) {
   return state.roomId === '' || state.user === '';
 }
 export function isShowConnectingDialog(state) {
+  if (state.isGameOver) {
+    return false;
+  }
   if (!state.roomId || !state.user) {
     return false;
   }

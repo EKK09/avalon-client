@@ -104,13 +104,17 @@ export default {
     ...mapMutations('game', [
       'setRoomId',
       'setUser',
+      'setIsShowInviteDialog',
     ]),
     ...mapActions('game', [
       'createGameAction',
       'joinGameAction',
     ]),
     async handleCreate() {
-      const handleSuccess = (roomId) => { this.$router.push({ path: `/${roomId}` }).catch(() => console.log('test error')); };
+      const handleSuccess = async (roomId) => {
+        await this.$router.push({ path: `/${roomId}` }).catch(() => console.log('push error'));
+        this.setIsShowInviteDialog(true);
+      };
       const handleError = () => {
         this.$q.notify({
           message: '遊戲連線錯誤',

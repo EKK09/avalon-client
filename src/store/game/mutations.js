@@ -15,6 +15,9 @@ export function setMerlinKilled(state) {
 export function setIsConnectingGame(state, value) {
   state.isConnectingGame = value;
 }
+export function setIsShowInviteDialog(state, value) {
+  state.isShowInviteDialog = value;
+}
 export function resetBasicGameInfo(state) {
   state.roomId = '';
   state.user = '';

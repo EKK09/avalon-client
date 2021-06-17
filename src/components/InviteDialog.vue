@@ -11,10 +11,10 @@
       class="relative-position q-pb-md"
     >
       <q-card-section class="text-h6 text-bold text-center">
-        房號: {{ roomId }}
+        快速邀請朋友加入遊戲
       </q-card-section>
       <q-card-section
-        class="flex flex-center"
+        class="flex flex-center q-pt-none"
       >
         <q-img
           style="max-width: 300px"
@@ -52,20 +52,27 @@
 <script>
 import QRCode from 'qrcode';
 import { copyToClipboard } from 'quasar';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'InviteDialog',
   data() {
     return {
-      isShowDialog: false,
       qrCodeUrl: '',
       isCopied: false,
     };
   },
   computed: {
-    ...mapState('game', ['roomId']),
+    ...mapState('game', ['roomId', 'isShowInviteDialog']),
 
+    isShowDialog: {
+      get() {
+        return this.isShowInviteDialog;
+      },
+      set(val) {
+        this.setIsShowInviteDialog(val);
+      },
+    },
     link() {
       return `${process.env.AVALON_CLIENT_URL}/${this.roomId}`;
     },
@@ -80,8 +87,10 @@ export default {
     this.qrCodeUrl = await QRCode.toDataURL(this.link, opts);
   },
   methods: {
+    ...mapMutations('game', ['setIsShowInviteDialog']),
+
     showDialog() {
-      this.isShowDialog = true;
+      this.setIsShowInviteDialog(true);
     },
     handleCopyLinkClick() {
       copyToClipboard(this.link)

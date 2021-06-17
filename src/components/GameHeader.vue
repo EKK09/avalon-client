@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState, mapMutations } from 'vuex';
 import GameRoleDialog from 'src/components/GameRoleDialog.vue';
 import InviteDialog from 'src/components/InviteDialog.vue';
 
@@ -159,11 +159,13 @@ export default {
     ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount', 'isGameOver']),
   },
   methods: {
+    ...mapMutations('game', ['setIsShowInviteDialog']),
+
     handleQuestionclick() {
       this.$refs.gameRoleDialog.showDialog();
     },
     handleInviteclick() {
-      this.$refs.inviteDialog.showDialog();
+      this.setIsShowInviteDialog(true);
     },
     showLeaveDialog() {
       this.confirm = true;

@@ -29,5 +29,6 @@ export default function state() {
     isGameOver: false,
     isMerlinKilled: false,
     isConnectingGame: false,
+    isShowInviteDialog: false,
   };
 }

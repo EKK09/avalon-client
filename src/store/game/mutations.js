@@ -191,3 +191,9 @@ export function setUnApproveCount(state, count) {
 export function resetUnApproveCount(state) {
   state.unApproveCount = 0;
 }
+export function incrementReconnectCount(state) {
+  state.reconnectCount += 1;
+}
+export function resetReconnectCount(state) {
+  state.reconnectCount = 0;
+}

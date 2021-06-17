@@ -30,5 +30,6 @@ export default function state() {
     isMerlinKilled: false,
     isConnectingGame: false,
     isShowInviteDialog: false,
+    reconnectCount: 0,
   };
 }

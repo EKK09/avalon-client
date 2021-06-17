@@ -25,7 +25,9 @@ export async function createGameAction({ dispatch, commit }, {
     handleError();
   }
 }
-export async function joinGameAction({ commit, state, getters }, {
+export async function joinGameAction({
+  commit, state, getters, dispatch,
+}, {
   player, roomId, handleSuccess, handleError,
 }) {
   try {
@@ -35,10 +37,12 @@ export async function joinGameAction({ commit, state, getters }, {
 
     // Connection opened
     socket.addEventListener('open', () => {
+      commit('setWebSocket', socket);
       commit('setRoomId', roomId);
       commit('setUser', player);
       commit('setIsConnectingGame', false);
       handleSuccess(roomId);
+      commit('resetReconnectCount');
     });
 
     // Listen for messages
@@ -231,9 +235,17 @@ export async function joinGameAction({ commit, state, getters }, {
       console.log('socket close');
       commit('setIsConnectingGame', false);
       commit('setWebSocket', null);
+      commit('incrementReconnectCount');
+      if (state.reconnectCount <= 3 && state.roomId && state.user) {
+        dispatch('joinGameAction', {
+          player: state.user,
+          roomId: state.roomId,
+          handleSuccess: () => { },
+          handleError: () => { },
+        });
+      }
       handleError();
     });
-    commit('setWebSocket', socket);
   } catch (error) {
     console.log(error);
     handleError();

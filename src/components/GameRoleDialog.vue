@@ -10,10 +10,23 @@
       style="max-width: 760px"
       class="relative-position scroll"
     >
-      <q-card-section>
+      <q-card-section
+        class="row justify-between items-center bg-white"
+        style="position: sticky; top: 0; z-index: 10"
+      >
         <div class="text-h6 text-bold">
           角色介紹
         </div>
+        <q-btn
+          v-close-popup
+          icon="close"
+          round
+          push
+          color="black"
+          text-color="white"
+          padding="4px"
+          size="md"
+        />
       </q-card-section>
       <q-list
         bordered
@@ -47,23 +60,6 @@
           </q-item-section>
         </q-item>
       </q-list>
-      <q-scroll-observer
-        :scroll-target="$refs.card"
-        @scroll="onScroll"
-      />
-      <q-btn
-        v-show="isShowCloseButton"
-        v-close-popup
-        icon="close"
-        round
-        push
-        color="black"
-        text-color="white"
-        padding="4px"
-        class="q-ma-md fixed-top-right"
-        size="md"
-        style="opacity: 0.6"
-      />
     </q-card>
   </q-dialog>
 </template>

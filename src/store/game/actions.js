@@ -245,7 +245,10 @@ export async function joinGameAction({
           handleError: () => { },
         });
       }
-      handleError();
+      // 進入遊戲前失敗才調用 handleError
+      if (!state.user || !state.roomId) {
+        handleError();
+      }
     });
   } catch (error) {
     console.log(error);

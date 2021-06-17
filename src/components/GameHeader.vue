@@ -8,12 +8,33 @@
       class="q-pa-sm"
       dense
     >
+      <q-item-section
+        v-if="roomId && user"
+        avatar
+        class="gt-xs"
+      >
+        <div
+          style="width: 100px"
+        >
+          <div class="text-bold ellipsis full-width">
+            房號: {{ roomId }}
+          </div>
+          <q-img
+            :src="userRoleImage"
+            width="100px"
+            height="140px"
+          />
+          <div class="text-bold fz-sm ellipsis full-width text-center">
+            {{ user }}
+          </div>
+        </div>
+      </q-item-section>
       <q-item-section>
         <q-item-label
           v-show="roomId"
-          class="q-pa-sm text-bold"
+          class="q-pa-sm text-bold lt-sm"
         >
-          No. {{ roomId }} <span v-show="user">({{ user }})</span>
+          房號: {{ roomId }} <span v-show="user">({{ user }})</span>
         </q-item-label>
         <div
           class="flex justify-center"

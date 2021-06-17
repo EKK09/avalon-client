@@ -356,12 +356,9 @@ export async function assignKillPlayerAction({ state, commit }) {
     console.log(error);
   }
 }
-export async function fetchGameInfoAction({ state, commit, getters }) {
+export async function fetchGameInfoAction({ commit, getters }, roomId) {
   try {
-    if (!state.roomId) {
-      throw new Error();
-    }
-    const response = await fetchGameInfoApi(state.roomId);
+    const response = await fetchGameInfoApi(roomId);
 
     const {
       player_info: playerInfo,

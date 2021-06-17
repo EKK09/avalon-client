@@ -42,8 +42,7 @@ export default {
     console.log('preFetch');
     const { roomId } = currentRoute.params;
     if (roomId) {
-      store.commit('game/setRoomId', roomId);
-      await store.dispatch('game/fetchGameInfoAction');
+      await store.dispatch('game/fetchGameInfoAction', roomId);
     }
   },
   methods: {

@@ -77,20 +77,27 @@ export default {
       return `${process.env.AVALON_CLIENT_URL}/${this.roomId}`;
     },
   },
+  async updated() {
+    await this.setQrCodeUrl();
+  },
   async mounted() {
-    const opts = {
-      errorCorrectionLevel: 'H',
-      type: 'image/jpeg',
-      quality: 0.9,
-      margin: 1,
-    };
-    this.qrCodeUrl = await QRCode.toDataURL(this.link, opts);
+    await this.setQrCodeUrl();
   },
   methods: {
     ...mapMutations('game', ['setIsShowInviteDialog']),
 
     showDialog() {
       this.setIsShowInviteDialog(true);
+    },
+
+    async setQrCodeUrl() {
+      const opts = {
+        errorCorrectionLevel: 'H',
+        type: 'image/jpeg',
+        quality: 1,
+        margin: 1,
+      };
+      this.qrCodeUrl = await QRCode.toDataURL(this.link, opts);
     },
     handleCopyLinkClick() {
       copyToClipboard(this.link)

@@ -26,30 +26,18 @@
           </template>
         </q-input>
       </q-card-section>
-      <q-card-section v-show="isShowRoomIdInput">
-        <q-input
-          v-model.trim="roomId"
-          color="orange-5"
-          dark
-          filled
-          standout="text-orange-5"
-          no-error-icon
-          clearable
-          :disable="isConnectingGame"
-          input-class="fz-md text-center text-orange-5"
-        >
-          <template #before>
-            <div class="text-h6 text-center text-orange-5">
-              房號
-            </div>
-          </template>
-        </q-input>
-      </q-card-section>
       <q-card-actions
         align="center"
+        class="q-pb-md"
       >
         <q-btn
-          :loading="isConnectingGame"
+          class="fz-md"
+          outline
+          push
+          rounded
+          :loading="isConnectingGame || isFetchingHost"
+          :color="buttonColor"
+          padding="sm md"
           :label="buttonText"
           @click="handleClick"
         />
@@ -63,6 +51,7 @@ import {
   mapGetters, mapState, mapMutations, mapActions,
 } from 'vuex';
 import { sleep } from 'src/common/asyncHelper';
+import { fetchGameHostApi } from 'src/api/gameApi';
 
 export default {
   name: 'LoginDialog',
@@ -70,6 +59,8 @@ export default {
     return {
       player: '',
       roomId: '',
+      host: '',
+      isFetchingHost: false,
       isButtonAvailable: true,
     };
   },
@@ -82,10 +73,24 @@ export default {
     ]),
 
     buttonText() {
-      if (this.roomId) {
-        return '加入遊戲';
+      const { roomId, host } = this;
+      if (roomId && host) {
+        return `加入${this.host}的遊戲`;
+      }
+      if (roomId && !host) {
+        return `遊戲(${roomId}) 不存在 !`;
       }
       return '建立遊戲';
+    },
+    buttonColor() {
+      const { roomId, host } = this;
+      if (roomId && host) {
+        return 'primary';
+      }
+      if (roomId && !host) {
+        return 'negative';
+      }
+      return 'primary';
     },
     isShowButton() {
       return this.player !== '';
@@ -94,14 +99,15 @@ export default {
       return !!this.roomId;
     },
   },
-  mounted() {
-    console.log('login mounted');
+  async mounted() {
     const { roomId } = this.$route.params;
-    if (roomId) {
-      this.roomId = roomId;
-    }
     const playerName = this.$q.localStorage.getItem('player') || '';
     this.player = playerName;
+
+    if (roomId) {
+      this.roomId = roomId;
+      this.host = await this.fetchGameHostName(roomId);
+    }
   },
   methods: {
     ...mapMutations('game', [
@@ -155,17 +161,32 @@ export default {
         return;
       }
       this.$q.localStorage.set('player', this.player);
-      this.setClickTimer();
-      if (this.roomId) {
+      if (this.roomId && this.host) {
+        this.setClickTimer();
         await this.handleJoin();
+      } else if (this.roomId) {
+        this.roomId = '';
       } else {
+        this.setClickTimer();
         await this.handleCreate();
       }
     },
     async setClickTimer() {
       this.isButtonAvailable = false;
-      await sleep(5);
+      await sleep(3);
       this.isButtonAvailable = true;
+    },
+    async fetchGameHostName(roomId) {
+      try {
+        this.isFetchingHost = true;
+        const response = await fetchGameHostApi(roomId);
+        const host = response.data.host || '';
+        return host;
+      } catch (error) {
+        return '';
+      } finally {
+        this.isFetchingHost = false;
+      }
     },
   },
 };

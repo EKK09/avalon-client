@@ -7,7 +7,7 @@
       bordered
       dark
     >
-      <q-card-section>
+      <q-card-section class="q-pb-xs">
         <q-input
           v-model.trim="player"
           dark
@@ -15,7 +15,7 @@
           color="orange-5"
           standout="text-orange-5"
           no-error-icon
-          :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 15 || '長度限制 15']"
+          :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 10 || '字數限制 10']"
           input-class="fz-md text-center text-orange-5"
           :disable="isConnectingGame"
         >
@@ -26,7 +26,7 @@
           </template>
         </q-input>
       </q-card-section>
-      <q-card-section>
+      <q-card-section v-show="isShowRoomIdInput">
         <q-input
           v-model.trim="roomId"
           color="orange-5"
@@ -46,7 +46,6 @@
         </q-input>
       </q-card-section>
       <q-card-actions
-        v-show="isShowButton"
         align="center"
       >
         <q-btn
@@ -91,8 +90,12 @@ export default {
     isShowButton() {
       return this.player !== '';
     },
+    isShowRoomIdInput() {
+      return !!this.roomId;
+    },
   },
   mounted() {
+    console.log('login mounted');
     const { roomId } = this.$route.params;
     if (roomId) {
       this.roomId = roomId;
@@ -109,6 +112,7 @@ export default {
     ...mapActions('game', [
       'createGameAction',
       'joinGameAction',
+      'handleJoinGameAction',
     ]),
     async handleCreate() {
       const handleSuccess = async (roomId) => {
@@ -128,12 +132,12 @@ export default {
     },
     async handleJoin() {
       const handleSuccess = (roomId) => { this.$router.push({ path: `/${roomId}` }).catch(() => console.log('test error')); };
-      const handleError = () => {
+      const handleError = (message = '遊戲連線錯誤') => {
         this.$q.notify({
-          message: '遊戲連線錯誤',
+          message,
         });
       };
-      await this.joinGameAction({
+      await this.handleJoinGameAction({
         player: this.player, roomId: this.roomId, handleSuccess, handleError,
       });
     },

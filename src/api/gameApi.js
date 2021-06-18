@@ -15,3 +15,7 @@ export const fetchGameInfoApi = (roomId) => {
   const path = `/game/${roomId}`;
   return avalonServer.get(path);
 };
+export const fetchGameJoinCodeApi = (roomId, body) => {
+  const path = `/join/${roomId}`;
+  return avalonServer.post(path, body);
+};

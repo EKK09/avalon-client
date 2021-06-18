@@ -94,110 +94,18 @@
           </div>
         </div>
       </q-item-section>
-      <q-item-section
-        side
-        top
-      >
-        <q-btn
-          icon="help_outline"
-          round
-          text-color="primary"
-          size="md"
-          padding="0"
-          class="q-my-sm"
-          @click="handleQuestionclick"
-        />
-        <q-btn
-          icon="person_add"
-          text-color="primary"
-          size="md"
-          padding="0"
-          class="q-my-sm"
-          round
-          :disable="isGameOver"
-          @click="handleInviteclick"
-        />
-        <q-space />
-        <q-btn
-          icon="exit_to_app"
-          text-color="primary"
-          size="md"
-          padding="0"
-          class="q-my-sm"
-          @click="showLeaveDialog"
-        />
-      </q-item-section>
     </q-item>
-    <GameRoleDialog ref="gameRoleDialog" />
-    <InviteDialog ref="inviteDialog" />
-    <q-dialog
-      v-model="confirm"
-      persistent
-    >
-      <q-card
-        dark
-        style="min-width: 350px"
-      >
-        <q-card-section class="text-h6 text-bold text-center">
-          確定離開遊戲 ?
-        </q-card-section>
-
-        <q-card-actions align="center">
-          <q-btn
-            v-close-popup
-            flat
-            label="取消"
-            color="primary"
-          />
-          <q-btn
-            v-close-popup
-            flat
-            label="確定"
-            color="primary"
-            @click="handleLaeveGame"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-header>
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from 'vuex';
-import GameRoleDialog from 'src/components/GameRoleDialog.vue';
-import InviteDialog from 'src/components/InviteDialog.vue';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'GameHeader',
-  components: { GameRoleDialog, InviteDialog },
-  data() {
-    return {
-      confirm: false,
-    };
-  },
   computed: {
     ...mapGetters('game', ['userRoleImage']),
-    ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount', 'isGameOver']),
-  },
-  methods: {
-    ...mapMutations('game', ['setIsShowInviteDialog']),
-
-    handleQuestionclick() {
-      this.$refs.gameRoleDialog.showDialog();
-    },
-    handleInviteclick() {
-      this.setIsShowInviteDialog(true);
-    },
-    showLeaveDialog() {
-      this.confirm = true;
-    },
-    handleLaeveGame() {
-      this.$router.replace('/').then(() => {
-        window.location.reload();
-      }).catch(() => {
-        window.location.reload();
-      });
-    },
+    ...mapState('game', ['roomId', 'taskResultList', 'user', 'unApproveCount']),
   },
 };
 </script>

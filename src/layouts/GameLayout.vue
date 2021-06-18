@@ -11,6 +11,65 @@
         <GameDialog />
         <GameConnectingDialog />
         <LoginDialog />
+        <GameRoleDialog ref="gameRoleDialog" />
+        <InviteDialog ref="inviteDialog" />
+        <q-dialog
+          v-model="confirm"
+          persistent
+        >
+          <q-card
+            dark
+            style="min-width: 350px"
+          >
+            <q-card-section class="text-h6 text-bold text-center">
+              確定離開遊戲 ?
+            </q-card-section>
+
+            <q-card-actions align="center">
+              <q-btn
+                v-close-popup
+                flat
+                label="取消"
+                color="primary"
+              />
+              <q-btn
+                v-close-popup
+                flat
+                label="確定"
+                color="primary"
+                @click="handleLaeveGame"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        <q-page-sticky
+          position="bottom-right"
+        >
+          <div class="row q-gutter-md q-mr-md q-mb-xs">
+            <q-icon
+              name="help_outline"
+              class="cursor-pointer"
+              size="sm"
+              color="blue-grey-9"
+              @click="handleQuestionclick"
+            />
+            <q-icon
+              name="person_add"
+              class="cursor-pointer"
+              size="sm"
+              color="blue-grey-9"
+              :disable="isGameOver"
+              @click="handleInviteclick"
+            />
+            <q-icon
+              class="cursor-pointer"
+              name="exit_to_app"
+              size="sm"
+              color="blue-grey-9"
+              @click="showLeaveDialog"
+            />
+          </div>
+        </q-page-sticky>
       </q-page>
     </q-page-container>
     <GameFooter />
@@ -24,6 +83,9 @@ import PlayerList from 'src/components/PlayerList.vue';
 import GameDialog from 'src/components/GameDialog.vue';
 import LoginDialog from 'src/components/LoginDialog.vue';
 import GameConnectingDialog from 'src/components/GameConnectingDialog.vue';
+import GameRoleDialog from 'src/components/GameRoleDialog.vue';
+import InviteDialog from 'src/components/InviteDialog.vue';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'GameLayout',
@@ -34,24 +96,46 @@ export default {
     GameDialog,
     LoginDialog,
     GameConnectingDialog,
+    GameRoleDialog,
+    InviteDialog,
+  },
+  data() {
+    return {
+      confirm: false,
+    };
+  },
+  computed: {
+    ...mapState('game', ['isGameOver']),
   },
   async preFetch({ store, currentRoute }) {
     if (process.env.CLIENT) {
       return;
     }
-    console.log('preFetch');
     const { roomId } = currentRoute.params;
     if (roomId) {
       await store.dispatch('game/fetchGameInfoAction', roomId);
     }
   },
   methods: {
+    ...mapMutations('game', ['setIsShowInviteDialog']),
+
+    handleQuestionclick() {
+      this.$refs.gameRoleDialog.showDialog();
+    },
+    handleInviteclick() {
+      this.setIsShowInviteDialog(true);
+    },
+    showLeaveDialog() {
+      this.confirm = true;
+    },
+    handleLaeveGame() {
+      this.$router.replace('/').then(() => {
+        window.location.reload();
+      }).catch(() => {
+        window.location.reload();
+      });
+    },
     myTweak(offset) {
-      // "offset" is a Number (pixels) that refers to the total
-      // height of header + footer that occupies on screen,
-      // based on the QLayout "view" prop configuration
-      console.log(offset);
-      // this is actually what the default style-fn does in Quasar
       return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' };
     },
   },

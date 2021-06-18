@@ -22,6 +22,7 @@ export async function createGameAction({ dispatch, commit }, {
     });
   } catch (error) {
     console.log(error);
+    commit('setIsConnectingGame', false);
     handleError();
   }
 }

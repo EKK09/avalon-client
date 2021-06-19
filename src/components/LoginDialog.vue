@@ -7,24 +7,23 @@
       bordered
       dark
     >
-      <q-card-section class="q-pb-xs">
-        <q-input
-          v-model.trim="player"
+      <q-card-section class="q-pb-sm">
+        <q-select
+          :value="player"
+          use-input
+          fill-input
           dark
-          filled
-          color="orange-5"
-          standout="text-orange-5"
-          no-error-icon
-          :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 10 || '字數限制 10']"
-          input-class="fz-md text-center text-orange-5"
-          :disable="isConnectingGame"
-        >
-          <template #before>
-            <div class="text-h6 text-center text-orange-5">
-              暱稱
-            </div>
-          </template>
-        </q-input>
+          hide-selected
+          input-debounce="0"
+          options-cover
+          input-class="text-center text-orange-5 fz-md"
+          hide-dropdown-icon
+          :options="options"
+          options-dark
+          placeholder="遊戲暱稱"
+          @filter="filterFn"
+          @input-value="setPlayer"
+        />
       </q-card-section>
       <q-card-actions
         align="center"
@@ -62,6 +61,19 @@ export default {
       host: '',
       isFetchingHost: false,
       isButtonAvailable: true,
+      options: [],
+      recommandNames: [
+        '金貝貝',
+        '阿土伯',
+        '金太郎',
+        '孫小美',
+        '小蝦米',
+        '金✖️五',
+        '藜民',
+        '流得滑',
+        '山下智囧',
+        '9527',
+      ],
     };
   },
   computed: {
@@ -187,6 +199,14 @@ export default {
       } finally {
         this.isFetchingHost = false;
       }
+    },
+    filterFn(val, update) {
+      update(() => {
+        this.options = this.recommandNames.filter((name) => name.includes(val));
+      });
+    },
+    setPlayer(val) {
+      this.player = val;
     },
   },
 };

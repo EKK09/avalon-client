@@ -8,22 +8,35 @@
       dark
     >
       <q-card-section class="q-pb-sm">
-        <q-select
-          :value="player"
-          use-input
-          fill-input
+        <q-input
+          ref="player"
+          v-model="player"
           dark
-          hide-selected
-          input-debounce="0"
-          options-cover
-          input-class="text-center text-orange-5 fz-md"
-          hide-dropdown-icon
-          :options="options"
-          options-dark
+          input-class="text-center text-primary fz-md"
+          :rules="[ (val) => !!val || '請輸入暱稱', val => val.length <= 8 || '字數限制 8']"
           placeholder="遊戲暱稱"
-          @filter="filterFn"
-          @input-value="setPlayer"
-        />
+        >
+          <q-menu
+            fit
+            dark
+            :target="$refs.player"
+            content-class=""
+          >
+            <q-list>
+              <q-item
+                v-for="(name, index) in recommandNames"
+                :key="index"
+                v-close-popup
+                clickable
+                @click="setPlayer(name)"
+              >
+                <q-item-section class="text-center fz-sm">
+                  {{ name }}
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-input>
       </q-card-section>
       <q-card-actions
         align="center"
@@ -63,14 +76,14 @@ export default {
       isButtonAvailable: true,
       options: [],
       recommandNames: [
+        '金城武',
+        '黎明',
+        '劉德華',
+        '梁朝偉',
         '金貝貝',
         '阿土伯',
-        '金太郎',
         '孫小美',
         '小蝦米',
-        '金✖️五',
-        '藜民',
-        '流得滑',
         '山下智囧',
         '9527',
       ],

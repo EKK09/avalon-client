@@ -67,7 +67,19 @@
               size="sm"
               color="blue-grey-9"
               @click="showLeaveDialog"
-            />
+            >
+              <q-tooltip
+                :delay="1000"
+                :value="true"
+                anchor="top middle"
+                content-class="text-primary bg-black"
+                content-style="overflow-y: visible;overflow-x: visible"
+                self="bottom middle"
+              >
+                開啟新遊戲
+                <div id="test" />
+              </q-tooltip>
+            </q-icon>
           </div>
         </q-page-sticky>
       </q-page>
@@ -164,3 +176,18 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+#test::after {
+  border-color: black transparent transparent transparent;
+  content: "";
+  border-width: 8px 8px 0 8px;
+  top: 30px;
+  border-style: solid;
+  display: block;
+  height: 0;
+  right: 20px;
+  margin-left: -8px;
+  position: absolute;
+  width: 0;
+}
+</style>

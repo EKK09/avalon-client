@@ -17,7 +17,7 @@ export default {
     return {
       delayMilliSencond: 80,
       timer: null,
-      textCount: 1,
+      textCount: 0,
     };
   },
   computed: {

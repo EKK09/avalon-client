@@ -56,7 +56,9 @@ module.exports = function (/* ctx */) {
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
-
+      uglifyOptions: {
+        compress: { drop_console: true },
+      },
       // rtl: false, // https://v1.quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,

@@ -1,0 +1,44 @@
+{
+  "name": "avalon-client",
+  "version": "0.0.1",
+  "description": "Avalon is a good game",
+  "author": "wei",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "0.21.1",
+    "core-js": "3.12.1",
+    "qrcode": "1.4.4",
+    "quasar": "1.15.15",
+    "vue-i18n": "8.24.4",
+    "compression": "^1.0.0",
+    "express": "^4.0.0",
+    "lru-cache": "6.0.0",
+    "vue": "2.6.12",
+    "vue-server-renderer": "2.6.12",
+    "vue-router": "3.2.0",
+    "@quasar/babel-preset-app": "2.0.1",
+    "vuex": "3.6.0"
+  },
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "quasar": {
+    "ssr": true
+  }
+}

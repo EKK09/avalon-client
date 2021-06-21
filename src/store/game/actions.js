@@ -1,5 +1,6 @@
 import { createGameApi, fetchGameInfoApi, fetchGameJoinCodeApi } from 'src/api/gameApi';
 import { GAME_ACTION_TYPE } from 'src/constants/action';
+import { GAME_JOIN_CODE } from 'src/constants/joinCode';
 import { GAME_ROLE, getRoleNameByRole } from 'src/constants/role';
 import { GAME_STATUS } from 'src/constants/status';
 
@@ -405,11 +406,15 @@ export async function handleJoinGameAction({ commit, dispatch }, {
 
     const code = response.data.join_code;
 
-    if (code === 99) {
-      throw new Error('遊戲不存在！！！');
-    } else if (code === 98) {
-      throw new Error(`${player}已經在遊戲中，換個名字試試吧！！！`);
-    } else if (code === 100) {
+    if (code === GAME_JOIN_CODE.GAME_NOT_EXIST) {
+      throw new Error('遊戲不存在！');
+    } else if (code === GAME_JOIN_CODE.PLAYER_EXIST) {
+      throw new Error(`${player}已經在遊戲中，換個名字試試吧！`);
+    } else if (code === GAME_JOIN_CODE.NO_SPACE) {
+      throw new Error('遊戲玩家已達上限！');
+    } else if (code === GAME_JOIN_CODE.GAME_HAS_START) {
+      throw new Error('遊戲進行中！');
+    } else if (code === GAME_JOIN_CODE.OK) {
       dispatch('joinGameAction', {
         player, roomId, handleSuccess, handleError,
       });

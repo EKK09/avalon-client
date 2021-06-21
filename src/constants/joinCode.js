@@ -1,0 +1,7 @@
+export const GAME_JOIN_CODE = {
+  OK: 100,
+  GAME_NOT_EXIST: 99,
+  PLAYER_EXIST: 98,
+  GAME_HAS_START: 97,
+  NO_SPACE: 96,
+};
